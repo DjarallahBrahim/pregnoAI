@@ -1,0 +1,39 @@
+Objective:
+Develop the next phase of a pregnancy tracking mobile app, focusing on:
+
+Enhancing the Login/Signup form.
+Building a Profile Screen for first-time users.
+Maintaining best practices for iOS/Android UI/UX.
+
+Features to Implement:
+1. Core Form for Login/Signup
+Improve the login/signup screen with:
+Email & Password.
+no backend for now just the UI/UX
+Error Handling & User Feedback (toasts or inline error messages).
+Loading State for smooth user experience.
+Centralized Styles for maintainability.
+
+2. Profile Screen (First Login)
+After logging in for the first time, users must enter:
+Name
+Age
+Pregnancy Start Date (used for due date calculation).
+Data Handling:
+Do not store data for now.
+Ensure persistence across sessions.
+
+3. UI/UX Considerations
+Follow iOS/Android best practices for a seamless experience.
+Ensure accessibility (high contrast, readable fonts, proper labels).
+Responsive Layout (adapt to different screen sizes).
+
+
+Next Steps After This (do not code it for now, until i ask you):
+Once these screens are complete, the next development phase will include:
+
+New screens for:
+Pregnancy Tracking (timeline, images, organ development).
+Weight Tracking (for both mother & baby).
+Blood Pressure Monitoring.
+Appointment Management.
