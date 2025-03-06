@@ -9,10 +9,11 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { useHeaderHeight } from "@react-navigation/elements"
+import { supabase } from '@/lib/supabase';
 
 import { Ionicons } from '@expo/vector-icons';
-import { useLanguage } from '@/contexts/LanguageContext';
 import { theme } from '@/styles/theme';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
 import { z } from 'zod';
 import { authFormStyles as styles } from '@/styles/authForm.styles';
@@ -66,6 +67,7 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   const handleSubmit = async () => {
     if (!validateForm()) return;
 
+    setErrors({});
     try {
       let result;
       if (mode === 'login') {
@@ -75,10 +77,28 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
       }
 
       if (result?.session) {
-        router.replace('/onboarding');
+        // Check if user has already completed onboarding
+        const { data: profiles, error } = await supabase
+          .from('pregnancy_profiles')
+          .select('id')
+          .eq('user_id', result.session.user.id)
+          .maybeSingle();
+
+        if (error && error.code !== 'PGRST116') {
+          throw error;
+        }
+
+        if (profiles?.id) {
+          router.replace('/(tabs)/baby');
+        } else {
+          router.replace('/onboarding');
+        }
       }
     } catch (error) {
       console.error('Authentication error:', error);
+      setErrors({ 
+        general: error instanceof Error ? error.message : 'An unexpected error occurred'
+      });
     }
   };
 

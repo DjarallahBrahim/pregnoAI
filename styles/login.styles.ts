@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { theme } from '@/styles/theme';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
@@ -10,7 +10,7 @@ export const loginStyles = StyleSheet.create({
   imageContainer: {
     width: '100%',
     height: height * 0.3,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -31,7 +31,7 @@ export const loginStyles = StyleSheet.create({
     left: 0,
     right: 0,
     height: '40%',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     backdropFilter: 'blur(8px)',
   },
   backButton: {
@@ -63,7 +63,6 @@ export const loginStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: height * 0.05,
     paddingBottom: height * 0.5,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     shadowColor: '#000',
@@ -83,13 +82,13 @@ export const loginStyles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: '800',
-    color: theme.colors.text.primary,
+    color: '#6B6969',
     marginBottom: 8,
     letterSpacing: 0.5,
   },
   subtitle: {
     fontSize: 16,
-    color: theme.colors.text.secondary,
+    color: '#666666',
     textAlign: 'center',
     paddingHorizontal: 20,
     lineHeight: 22,
@@ -122,10 +121,10 @@ export const loginStyles = StyleSheet.create({
   toggleText: {
     fontSize: 16,
     fontWeight: '600',
-    color: theme.colors.text.secondary,
+    color: '#666666',
   },
   activeToggleText: {
-    color: theme.colors.primary,
+    color: '#FF8FB1',
   },
    box: {
    

@@ -1,6 +1,7 @@
 import { useState, useCallback, } from 'react';
 import { router } from 'expo-router';
 import { supabase } from '@/lib/supabase';
+import { useAuthStore } from './useAuthStore';
 
 export type AuthError = {
   email?: string;
@@ -12,6 +13,7 @@ export type AuthError = {
 export function useAuth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AuthError>({});
+  const { setSession } = useAuthStore();
 
   const resetPassword = useCallback(async (email: string) => {
     setLoading(true);
@@ -65,6 +67,10 @@ export function useAuth() {
         throw error;
       }
 
+      if (data.session) {
+        setSession(data.session);
+      }
+
       return data;
     } catch (err: any) {
       setError({
@@ -90,6 +96,10 @@ export function useAuth() {
         throw error;
       }
 
+      if (data.session) {
+        setSession(data.session);
+      }
+
       return data;
     } catch (err: any) {
       setError({
@@ -106,6 +116,7 @@ export function useAuth() {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
+      setSession(null);
       router.replace('/');
     } catch (err: any) {
       setError({

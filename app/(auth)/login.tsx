@@ -8,7 +8,7 @@ import { AuthForm } from '@/components/auth/AuthForm';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { theme } from '@/styles/theme';
 import { loginStyles as styles } from '@/styles/login.styles';
-import { useKeyboardOffsetHeight } from '@/hooks/useKeyboardOffsetHeight';
+import useKeyboardOffsetHeight from '@/app/(auth)/hooks/useKeyboardOffsetHeight';
 
 
 export default function LoginScreen() {
@@ -52,14 +52,17 @@ export default function LoginScreen() {
         keyboardDismissMode="on-drag"
         scrollEnabled={false}
         style={[styles.content, { transform: [{ translateY: animatedValue }] }]}
-        contentContainerStyle={styles.scrollContentContainer}
+        contentContainerStyle={[
+          styles.scrollContentContainer,
+          { backgroundColor: theme.colors.background.primary }
+        ]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <Text style={styles.title}>
+          <Text style={[styles.title, { color: theme.colors.text.primary }]}>
             {mode === 'login' ? t('auth.loginTitle') : t('auth.signupTitle')}
           </Text>
-          <Text style={styles.subtitle}>
+          <Text style={[styles.subtitle, { color: theme.colors.text.secondary }]}>
             {mode === 'login' ? t('auth.loginSubtitle') : t('auth.signupSubtitle')}
           </Text>
         </View>

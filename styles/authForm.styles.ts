@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { theme } from '@/styles/theme';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export const authFormStyles = StyleSheet.create({
   container: {
@@ -16,17 +16,17 @@ export const authFormStyles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '500',
-    color: theme.colors.text.primary,
+    color: '#6B6969',
   },
   input: {
     height: 48,
     borderWidth: 1,
-    borderColor: theme.colors.background.gray,
+    borderColor: '#E9ECEF',
     borderRadius: 12,
     paddingHorizontal: 16,
     fontSize: 16,
-    color: theme.colors.text.primary,
-    backgroundColor: theme.colors.background.light,
+    color: '#6B6969',
+    backgroundColor: '#FFFFFF',
   },
   inputError: {
     borderColor: '#FF3B30',
@@ -41,16 +41,16 @@ export const authFormStyles = StyleSheet.create({
     alignItems: 'center',
     height: 48,
     borderWidth: 1,
-    borderColor: theme.colors.background.gray,
+    borderColor: '#E9ECEF',
     borderRadius: 12,
-    backgroundColor: theme.colors.background.light,
+    backgroundColor: '#FFFFFF',
   },
   passwordInput: {
     flex: 1,
     height: '100%',
     paddingHorizontal: 16,
     fontSize: 16,
-    color: theme.colors.text.primary,
+    color: '#6B6969',
   },
   eyeIcon: {
     padding: 10,
@@ -67,23 +67,22 @@ export const authFormStyles = StyleSheet.create({
     borderWidth: 1,
   },
   unchecked: {
-    borderColor: theme.colors.background.gray,
+    borderColor: '#E9ECEF',
   },
   checkboxLabel: {
     fontSize: 14,
-    color: theme.colors.text.secondary,
+    color: '#666666',
   },
   forgotPassword: {
     fontSize: 14,
-    color: theme.colors.primary,
+    color: '#FF8FB1',
   },
   submitButton: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: '#FF8FB1',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
     marginTop: 20,
-    shadowColor: theme.colors.primary,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -96,18 +95,18 @@ export const authFormStyles = StyleSheet.create({
     opacity: 0.7,
   },
   submitButtonText: {
-    color: theme.colors.text.light,
     fontSize: 16,
     fontWeight: '600',
+    color: '#FFFFFF',
   },
   backButton: {
     marginTop: 12,
     alignItems: 'center',
   },
   backButtonText: {
-    color: theme.colors.text.secondary,
     fontSize: 14,
     fontWeight: '500',
+    color: '#666666',
   },
   mt2: {
     marginTop: 8,

@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { theme } from './theme';
+import { theme } from './theme.ts';
 
 const { width, height } = Dimensions.get('window');
 
@@ -128,6 +128,7 @@ export const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     shadowColor: '#FF8FB1',
+    opacity: 1,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -135,6 +136,9 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 6,
+  },
+  buttonDisabled: {
+    opacity: 0.7,
   },
   startJourneyButton: {
     paddingVertical: 18,
