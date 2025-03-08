@@ -152,4 +152,14 @@ export default {
     greeting: 'Bonjour',
     dueDate: 'Terme'
   },
+  timeline: {
+    title: 'Votre plan d\'action hebdomadaire',
+    noActions: 'Pas d\'actions pour cette semaine.',
+    categories: {
+      health: 'Santé',
+      finance: 'Finances',
+      paperwork: 'Démarches',
+      family: 'Organisation familiale'
+    }
+  },
 };

@@ -8,6 +8,8 @@ import { useProfile } from '@/hooks/useProfile';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { HorizontalCalendar } from '@/components/baby/HorizontalCalendar';
 import { DevelopmentGallery } from '@/components/baby/DevelopmentGallery';
+import { ActionTimeline } from '@/components/baby/ActionTimeline';
+
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import dayjs from 'dayjs';
 
@@ -78,7 +80,10 @@ export default function BabyScreen() {
         <LinearGradient colors={theme.colors.gradients.primary} style={styles.gradient}>
           <ScrollView 
             style={styles.scrollView} 
-            contentContainerStyle={styles.content}
+            contentContainerStyle={[
+              styles.content,
+              { paddingBottom: insets.bottom + 50 }
+            ]}
           >
             <View style={styles.topBar}>
               <View>
@@ -102,6 +107,8 @@ export default function BabyScreen() {
               />
             </View>
               <DevelopmentGallery week={selectedWeek} />
+              <ActionTimeline week={selectedWeek} />
+
             
           </ScrollView>
         </LinearGradient>
@@ -131,6 +138,8 @@ const styles = StyleSheet.create({
   },
   gradient: {
     flex: 1,
+    marginBottom: 24
+
   },
   scrollView: {
     flex: 1,

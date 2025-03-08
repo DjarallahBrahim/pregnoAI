@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
-import { View, Image, StyleSheet, Dimensions, ActivityIndicator, Text, Platform } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { View, Image, StyleSheet, Dimensions, ActivityIndicator, Text, Platform, TouchableOpacity } from 'react-native';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { theme } from '@/styles/theme';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const IMAGE_WIDTH = SCREEN_WIDTH - 20; // 20px padding on each side
@@ -33,6 +34,7 @@ interface DevelopmentGalleryProps {
 export function DevelopmentGallery({ week }: DevelopmentGalleryProps) {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+  const [showInfo, setShowInfo] = useState(true);
   const { t } = useLanguage();
 
   // Calculate which image to show based on the current week
@@ -105,6 +107,10 @@ export function DevelopmentGallery({ week }: DevelopmentGalleryProps) {
     }
   }, [weekRangeKey, t]);
 
+  const toggleInfo = () => {
+    setShowInfo(!showInfo);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.aiTitle}>{t('development.aiImageTitle')}</Text>
@@ -125,10 +131,7 @@ export function DevelopmentGallery({ week }: DevelopmentGalleryProps) {
           accessibilityLabel={imageData.alt}
         />
 
-        <LinearGradient
-          colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.3)']}
-          style={styles.gradient}
-        />
+        
         
         {loading && (
           <View style={styles.loadingContainer}>
@@ -142,23 +145,49 @@ export function DevelopmentGallery({ week }: DevelopmentGalleryProps) {
           </View>
         )}
         
+        {!loading && !error && (
+          <TouchableOpacity 
+            style={styles.infoButton} 
+            onPress={toggleInfo}
+            activeOpacity={0.7}
+          >
+            <Ionicons 
+              name={showInfo ? "close-circle" : "information-circle"} 
+              size={22} 
+              color="white" 
+            />
+          </TouchableOpacity>
+        )}
              
-        <View style={styles.infoOverlay}>
-          <View style={styles.infoRow}>
-            <View>
-              <Text style={styles.infoLabel}>{t('development.fruitComparison')}</Text>
-              <Text style={styles.infoValue}>{weekData.fruits}</Text>
+        {!loading && !error && showInfo && (
+          <>
+            <LinearGradient
+              colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0.05)']}
+              style={styles.gradient}
+            />
+            <View style={styles.infoOverlay}>
+              <Animated.View 
+                entering={FadeIn.duration(300)}
+                style={styles.infoContent}
+              >
+                <View style={styles.infoRow}>
+                  <View>
+                    <Text style={styles.infoLabel}>{t('development.fruitComparison')}</Text>
+                    <Text style={styles.infoValue}>{weekData.fruits}</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.infoLabel}>{t('development.size')}</Text>
+                    <Text style={styles.infoValue}>{weekData.taille}</Text>
+                  </View>
+                </View>
+                <View>
+                  <Text style={styles.infoLabel}>{t('development.keyChanges')}</Text>
+                  <Text style={styles.infoValue}>{weekData.changement}</Text>
+                </View>
+              </Animated.View>
             </View>
-            <View>
-              <Text style={styles.infoLabel}>{t('development.size')}</Text>
-              <Text style={styles.infoValue}>{weekData.taille}</Text>
-            </View>
-          </View>
-          <View>
-            <Text style={styles.infoLabel}>{t('development.keyChanges')}</Text>
-            <Text style={styles.infoValue}>{weekData.changement}</Text>
-          </View>
-        </View>
+          </>
+        )}
       </Animated.View>
     </View>
   );
@@ -178,7 +207,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: 'red',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 8,
@@ -198,7 +227,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: '30%',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
   loadingContainer: {
     ...StyleSheet.absoluteFillObject,
@@ -218,12 +246,29 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 
+  infoButton: {
+    position: 'absolute',
+    bottom: 5,
+    right: 8,
+    width: 20,
+    height: 20,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  
   infoOverlay: {
     position: 'absolute',
-    bottom: 20,
-    left: 10,
-    right: 20,
-    padding: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 15,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    zIndex: 5,
+  },
+  infoContent: {
+    width: '100%',
   },
   infoRow: {
     flexDirection: 'row',
@@ -248,5 +293,3 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-
-export { DevelopmentGallery }

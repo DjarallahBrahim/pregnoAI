@@ -152,4 +152,14 @@ export default {
     greeting: 'Hi',
     dueDate: 'Due'
   },
+  timeline: {
+    title: 'Your Weekly Action Plan',
+    noActions: 'No actions for this week.',
+    categories: {
+      health: 'Health',
+      finance: 'Finances',
+      paperwork: 'Paperwork',
+      family: 'Family Organization'
+    }
+  },
 };
