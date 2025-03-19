@@ -5,6 +5,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { theme } from '@/styles/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { ContractionTrackerModal } from './ContractionTrackerModal';
+import { router } from 'expo-router';
 
 export function ContractionTrackerFeature() {
   const { t } = useLanguage();
@@ -15,7 +16,10 @@ export function ContractionTrackerFeature() {
       <TouchableOpacity 
         style={styles.container}
         activeOpacity={0.9}
-        onPress={() => setIsModalVisible(true)}
+        //onPress={() => setIsModalVisible(true)}
+        onPress={() => {
+          router.push('/contraction-tracker');
+        }}
       >
         <LinearGradient
           colors={['rgba(255, 143, 177, 0.1)', 'rgba(255, 143, 177, 0.2)']}
@@ -43,10 +47,10 @@ export function ContractionTrackerFeature() {
         </LinearGradient>
       </TouchableOpacity>
       
-      <ContractionTrackerModal
+      {/* <ContractionTrackerModal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-      />
+      /> */}
     </>
   );
 }
