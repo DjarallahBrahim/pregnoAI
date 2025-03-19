@@ -175,7 +175,7 @@ export function BloodTestUploadModal({
         
         <View style={styles.contentContainer}>
           <View style={styles.tagsContainer}>
-            <Ionicons name="warning-outline" size={16} color={theme.colors.error} />
+            <Ionicons name="warning-outline" size={24} color={theme.colors.error} />
             <TextCarousel data={textList} interval={3000} />
             {/* <View style={[styles.tag, { backgroundColor: '#FF7DA0' }]}>
               <Ionicons name="image-outline" size={16} color='white' />

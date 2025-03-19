@@ -47,21 +47,35 @@ export default function ContractionTrackerScreen() {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const lastEndedContractionRef = useRef<Contraction | null>(null);
 
-  // Helper function to reset all state
-  const resetState = useCallback(() => {
-    // Clear timers
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
+  // Calculate statistics
+  const contractionStats = useMemo(() => {
+    // Total number of contractions (including active)
+    const totalCount = contractions.length + (activeContraction ? 1 : 0);
+    
+    // Average contraction duration
+    let avgDuration = 0;
+    if (contractions.length > 0) {
+      const totalDuration = contractions.reduce((sum, contraction) => sum + contraction.duration, 0);
+      avgDuration = Math.round(totalDuration / contractions.length);
     }
     
-    // Reset all state values
-    setContractions([]);
-    setActiveContraction(null);
-    setTimer(0);
-    setRestTimer(0);
-    lastEndedContractionRef.current = null;
-  }, []);
+    // Average rest time
+    let avgRestTime = 0;
+    const contractionsWithRestTime = contractions.filter(c => c.restTime !== undefined);
+    if (contractionsWithRestTime.length > 0) {
+      const totalRestTime = contractionsWithRestTime.reduce(
+        (sum, contraction) => sum + (contraction.restTime || 0), 
+        0
+      );
+      avgRestTime = Math.round(totalRestTime / contractionsWithRestTime.length);
+    }
+    
+    return {
+      totalCount,
+      avgDuration,
+      avgRestTime
+    };
+  }, [contractions, activeContraction]);
 
   // Start a new contraction
   const startContraction = () => {
@@ -189,11 +203,6 @@ export default function ContractionTrackerScreen() {
           ]}>
             {restTimeValue()}
           </Text>
-          <View style={styles.intensityContainer}>
-            {Array.from({ length: intensity }).map((_, i) => (
-              <Text key={i} style={styles.intensityDot}>●</Text>
-            ))}
-          </View>
         </View>
       </View>
     );
@@ -206,11 +215,33 @@ export default function ContractionTrackerScreen() {
           <Text style={styles.title}>{t('momFeatures.contractionTracker.modalTitle')}</Text>
         </View>
 
-        <View style={styles.timelineLabels}>
-          <Text style={styles.timelineLabel}>{t('momFeatures.contractionTracker.duration')}</Text>
-          <View style={{ width: 30 }} />
-          <Text style={styles.timelineLabel}>{t('momFeatures.contractionTracker.restTime')}</Text>
+        <View style={styles.statsContainer}>
+          <View style={styles.statItem}>
+            <Text style={styles.statValue}>{contractionStats.totalCount}</Text>
+            <Text style={styles.statLabel}>{t('momFeatures.contractionTracker.totalContractionCount')}</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Text style={styles.statValue}>
+              {contractionStats.avgDuration > 0 ? formatTimeMMSS(contractionStats.avgDuration) : '0'}
+            </Text>
+            <Text style={styles.statLabel}>{t('momFeatures.contractionTracker.avgDuration')}</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Text style={styles.statValue}>
+              {contractionStats.avgRestTime > 0 ? formatTimeMMSS(contractionStats.avgRestTime) : '0'}
+            </Text>
+            <Text style={styles.statLabel}>{t('momFeatures.contractionTracker.avgRestTime')}</Text>
+          </View>
         </View>
+
+        {/* Empty state message */}
+        {contractions.length === 0 && !activeContraction && (
+          <View style={styles.emptyStateContainer}>
+            <Text style={styles.emptyStateText}>
+              {t('momFeatures.contractionTracker.emptyStateMessage')}
+            </Text>
+          </View>
+        )}
 
         {/* Active contraction */}
         {activeContraction && (
@@ -285,16 +316,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: theme.colors.text.primary,
   },
-  timelineLabels: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    paddingHorizontal: 60,
-  },
-  timelineLabel: {
-    fontSize: 12,
-    color: theme.colors.text.secondary,
-  },
   timelineList: {
     flex: 1,
   },
@@ -365,15 +386,6 @@ const styles = StyleSheet.create({
     color: '#FF6B98',
     fontWeight: '700',
   },
-  intensityContainer: {
-    flexDirection: 'row',
-    marginTop: 4,
-  },
-  intensityDot: {
-    fontSize: 14,
-    color: '#FF6B98',
-    marginRight: 2,
-  },
   actionButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -396,5 +408,52 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+  },
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: '#F9F9F9',
+    borderRadius: 8,
+    marginBottom: 16,
+    ...Platform.select({
+      ios: {
+        shadowColor: theme.colors.primary,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
+  statItem: {
+    alignItems: 'center',
+    flex: 1,
+  },
+  statValue: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FF6B98',
+    marginBottom: 4,
+  },
+  statLabel: {
+    fontSize: 12,
+    color: theme.colors.text.secondary,
+    textAlign: 'center',
+  },
+  emptyStateContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 32,
+  },
+  emptyStateText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: theme.colors.text.secondary,
+    lineHeight: 24,
   },
 });

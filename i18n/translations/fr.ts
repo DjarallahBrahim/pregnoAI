@@ -901,7 +901,10 @@ export default {
       interval: 'Intervalle',
       startContraction: 'Début de la contraction',
       stopContraction: 'Fin de la contraction',
-      restTime: 'Temps de Repos'
+      restTime: 'Temps de Repos',
+      totalContractionCount: 'Total',
+      avgRestTime: 'Repos moyen',
+      emptyStateMessage: "Chronométrez plusieurs contractions et l'application vous indiquera à quelle étape du travail vous vous trouvez."
     }
   }
 };

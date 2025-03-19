@@ -901,7 +901,10 @@ export default {
       interval: 'Interval',
       startContraction: 'Start contraction',
       stopContraction: 'Stop contraction',
-      restTime: 'Rest Time'
+      restTime: 'Rest Time',
+      totalContractionCount: 'Total Count',
+      avgRestTime: 'Avg Rest Time',
+      emptyStateMessage: 'Time several contractions and the app will indicate which stage of labor you are in.'
     }
   }
 };
