@@ -2,6 +2,7 @@ import { useState, useCallback, } from 'react';
 import { router } from 'expo-router';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from './useAuthStore';
+import { generateOpenRouterKey } from '@/lib/openrouter';
 
 export type AuthError = {
   email?: string;
@@ -68,6 +69,12 @@ export function useAuth() {
       }
 
       if (data.session) {
+        // Generate OpenRouter API key for the new user
+        const openRouterKey = await generateOpenRouterKey(data.session.user.id);
+        if (!openRouterKey) {
+          console.error('Failed to generate OpenRouter API key');
+        }
+
         setSession(data.session);
       }
 

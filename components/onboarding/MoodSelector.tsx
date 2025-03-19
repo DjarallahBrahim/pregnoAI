@@ -26,11 +26,14 @@ export function MoodSelector({ value, onChange }: MoodSelectorProps) {
           key={mood}
           style={[
             styles.moodButton,
-            value === index && styles.moodButtonSelected,
+            value === index && styles.moodButtonSelected
           ]}
           onPress={() => onChange(index)}
         >
-          <Text style={styles.moodButtonText}>{mood}</Text>
+          <Text style={[
+            styles.moodButtonText,
+            value === index && styles.moodButtonTextSelected
+          ]}>{mood}</Text>
         </TouchableOpacity>
       ))}
     </View>

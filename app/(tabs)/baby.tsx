@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from '@/styles/theme';
 import { useProfile } from '@/hooks/useProfile';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { WeekProgress } from '@/components/baby/WeekProgress';
 import { HorizontalCalendar } from '@/components/baby/HorizontalCalendar';
 import { DevelopmentGallery } from '@/components/baby/DevelopmentGallery';
 import { ActionTimeline } from '@/components/baby/ActionTimeline';
@@ -34,6 +35,7 @@ export default function BabyScreen() {
   const { profile, loading, error, fetchProfile } = useProfile();
   const insets = useSafeAreaInsets();
   const [selectedWeek, setSelectedWeek] = React.useState(0);
+  const [direction, setDirection] = React.useState<'forward' | 'backward'>('forward');
 
   React.useEffect(() => {
     fetchProfile();
@@ -52,6 +54,7 @@ export default function BabyScreen() {
   const mood = profile?.initial_mood ?? -1;
 
   const handleWeekChange = (week: number) => {
+    setDirection(week > selectedWeek ? 'forward' : 'backward');
     setSelectedWeek(week);
   };
 
@@ -106,8 +109,10 @@ export default function BabyScreen() {
                 onWeekChange={handleWeekChange} 
               />
             </View>
-              <DevelopmentGallery week={selectedWeek} />
-              <ActionTimeline week={selectedWeek} />
+              <DevelopmentGallery week={selectedWeek} direction={direction} />
+            <WeekProgress week={selectedWeek} direction={direction} />
+              <ActionTimeline week={selectedWeek} direction={direction} />
+            
 
             
           </ScrollView>

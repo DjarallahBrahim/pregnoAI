@@ -1,94 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import Animated, { FadeIn, FadeOut, SlideInRight, SlideOutLeft, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { theme } from '@/styles/theme';
-
-interface ActionItem {
-  id: string;
-  day: string;
-  date: string;
-  description: string;
-  category: 'health' | 'finance' | 'paperwork' | 'family';
-}
+import { usePlanning, PlanningTask } from '@/hooks/usePlanning';
 
 interface ActionTimelineProps {
   week: number;
 }
 
-export function ActionTimeline({ week }: ActionTimelineProps) {
+export function ActionTimeline({ week, direction = 'forward' }: ActionTimelineProps) {
   const { t } = useLanguage();
+  const { fetchTasksForWeek, loading, error } = usePlanning();
+  const [tasks, setTasks] = useState<PlanningTask[]>([]);
+
+  // Fetch tasks when week changes
+  // Update tasks when week changes
+  useEffect(() => {
+    const weekTasks = fetchTasksForWeek(week);
+    setTasks(weekTasks);
+  }, [week, fetchTasksForWeek]);
   
-  // Generate fake data based on week number
-  const getActionsForWeek = (weekNum: number): ActionItem[] => {
-    // This would eventually come from your i18n files or API
-    const weekData: Record<number, ActionItem[]> = {
-      10: [
-        {
-          id: '1',
-          day: 'sam.',
-          date: '8',
-          description: 'Echographie de datation : vérification du bon déroulement.',
-          category: 'health'
-        },
-        {
-          id: '2',
-          day: 'dim.',
-          date: '9',
-          description: 'Prévois le budget pour la grossesse et les soins.',
-          category: 'finance'
-        },
-        {
-          id: '3',
-          day: 'lun.',
-          date: '10',
-          description: 'Mets à jour ton dossier social.',
-          category: 'paperwork'
-        },
-        {
-          id: '4',
-          day: 'mar.',
-          date: '11',
-          description: 'Achète des vêtements adaptés à la grossesse.',
-          category: 'family'
-        }
-      ],
-      41: [
-        {
-          id: '1',
-          day: 'jeu.',
-          date: '14',
-          description: 'Rendez-vous avec sage-femme.',
-          category: 'health'
-        },
-        {
-          id: '2',
-          day: 'ven.',
-          date: '15',
-          description: 'Recherche des allocations familiales disponibles.',
-          category: 'finance'
-        }
-      ],
-      // Add more weeks as needed
-    };
-    
-    // Return data for the selected week or empty array if no data
-    return weekData[weekNum] || [];
+  // Format day number to day name
+  const getDayName = (day: number): string => {
+    return t('timeline.day') || 'Day';
+  };
+
+  // Format day number to date string
+  const getDateString = (day: number): string => {
+    return day.toString();
   };
   
-  const actions = getActionsForWeek(week);
   
   // Get color based on category
   const getCategoryColor = (category: string): string => {
     switch (category) {
-      case 'health':
+      case 'health': // English
+      case 'santé': // French
         return '#A1E9C4'; // Light green
-      case 'finance':
-        return '#FAD78C'; // Light yellow
-      case 'paperwork':
+      case 'nutrition': // Both English and French
+        return '#B4E3E1'; // Light teal
+      case 'démarches': // French
         return '#F9C0C0'; // Light pink/salmon
-      case 'family':
+      case 'prévention': // French
+      case 'prevention': // English
+        return '#C7CEEA'; // Light blue
+      case 'couple et parentalité': // French
+      case 'couple and parenting': // English
         return '#FFC2E2'; // Light pink
+      case 'développement enfant': // French
+      case 'child development': // English
+        return '#B5EAD7'; // Mint green
+      case 'beauté': // French
+      case 'beauty': // English
+        return '#FFB7B2'; // Light coral
       default:
         return '#E5E7EB'; // Light gray
     }
@@ -96,21 +62,35 @@ export function ActionTimeline({ week }: ActionTimelineProps) {
   
   // Get category label based on category
   const getCategoryLabel = (category: string): string => {
-    switch (category) {
-      case 'health':
-        return t('timeline.categories.health') || 'Health';
-      case 'finance':
-        return t('timeline.categories.finance') || 'Finances';
-      case 'paperwork':
-        return t('timeline.categories.paperwork') || 'Démarches';
-      case 'family':
-        return t('timeline.categories.family') || 'Organisation familiale';
-      default:
-        return '';
-    }
+    // Capitalize first letter of each word
+    return category.split(' ').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
   };
   
-  if (actions.length === 0) {
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.headerTitle}>{t('timeline.title')}</Text>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>Loading...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.headerTitle}>{t('timeline.title')}</Text>
+        <View style={styles.emptyContainer}>
+          <Text style={[styles.emptyText, styles.errorText]}>{error}</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (tasks.length === 0) {
     return (
       <View style={styles.container}>
         <Text style={styles.headerTitle}>{t('timeline.title') || 'Weekly Timeline'}</Text>
@@ -125,27 +105,35 @@ export function ActionTimeline({ week }: ActionTimelineProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerTitle}>{t('timeline.title') || 'Weekly Timeline'}</Text>
-      <View style={styles.timelineContainer}>
-        {actions.map((item) => (
+      
+      <Animated.View 
+        style={styles.timelineContainer}
+        entering={direction === 'forward' ? SlideInRight.duration(500) : SlideInLeft.duration(500)}
+
+        key={week}
+      >
+        <Text style={styles.headerTitle}>{t('timeline.title') || 'Weekly Timeline'}</Text>
+        {tasks.map((item) => (
           <View key={item.id} style={styles.timelineItem}>
             <View style={styles.dateContainer}>
-              <Text style={styles.day}>{item.day}</Text>
-              <Text style={styles.date}>{item.date}</Text>
+              <Text style={styles.day}>{`${getDayName(item.day)}`}</Text>
+              <Text style={styles.date}>{getDateString(item.day)}</Text>
             </View>
             
             <View style={[styles.contentContainer, { borderLeftColor: getCategoryColor(item.category) }]}>
               <View style={[styles.categoryBadge, { backgroundColor: getCategoryColor(item.category) }]}>
                 <Text style={styles.categoryText}>{getCategoryLabel(item.category)}</Text>
               </View>
-              <Text style={styles.description}>{item.description}</Text>
-              <TouchableOpacity style={styles.detailsButton}>
-                <Ionicons name="chevron-forward" size={20} color={theme.colors.text.secondary} />
-              </TouchableOpacity>
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.description}>{item.description}</Text>
+                <TouchableOpacity style={styles.detailsButton}>
+                  <Ionicons name="chevron-forward" size={20} color={theme.colors.text.secondary} />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         ))}
-      </View>
+      </Animated.View>
     </View>
   );
 }
@@ -156,12 +144,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginBottom: 20,
+    
   },
   headerTitle: {
     fontSize: 18,
-    fontWeight: '600',
-    color: theme.colors.text.primary,
-    marginBottom: 15,
+    fontWeight: '700',
+    color: theme.colors.primary,
+    margin: 10,
   },
   timelineContainer: {
     borderRadius: 20,
@@ -182,7 +171,6 @@ const styles = StyleSheet.create({
   timelineItem: {
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderRadius: 20,
     borderBottomColor: '#F3F4F6',
   },
   dateContainer: {
@@ -190,14 +178,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 15,
-    backgroundColor: '#F9FAFB',
-    borderRadius: 20,
-    
+    //backgroundColor: '#F9FAFB',
+    borderRadius: 12,
+    marginRight: 8,
   },
   day: {
     fontSize: 13,
     color: theme.colors.text.secondary,
     fontWeight: '500',
+    marginBottom: 2,
   },
   date: {
     fontSize: 18,
@@ -206,8 +195,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
     paddingVertical: 15,
     paddingHorizontal: 12,
     borderLeftWidth: 4,
@@ -216,12 +204,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 12,
-    marginRight: 10,
+    alignSelf: 'flex-start',
+    marginBottom: 8,
   },
   categoryText: {
     fontSize: 12,
     fontWeight: '500',
     color: 'rgba(0,0,0,0.6)',
+  },
+  descriptionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   description: {
     flex: 1,
@@ -242,5 +235,8 @@ const styles = StyleSheet.create({
   emptyText: {
     color: theme.colors.text.secondary,
     fontSize: 16,
-  }
+  },
+  errorText: {
+    color: theme.colors.error,
+  },
 }); 

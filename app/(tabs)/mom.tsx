@@ -2,58 +2,57 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet, Platform, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from '@/styles/theme';
-import { useAuth } from '@/hooks/useAuth';
+import { BloodTestFeature } from '@/components/mom-features/BloodTestFeature';
+import { KickCounterFeature } from '@/components/mom-features/kickcounter/KickCounterFeature';
+import { ContractionTrackerFeature } from '@/components/mom-features/contractionTracker/ContractionTrackerFeature';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function MomScreen() {
   const insets = useSafeAreaInsets();
-  const { signOut, loading } = useAuth();
+  const { t } = useLanguage();
 
   return (
-    <LinearGradient colors={theme.colors.gradients.primary} style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <LinearGradient colors={theme.colors.gradients.primary} style={styles.gradient}>
       <ScrollView 
         style={styles.scrollView} 
         contentContainerStyle={[
           styles.content,
           {
-            paddingTop: Platform.OS === 'ios' ? 0 : insets.top,
             paddingBottom: insets.bottom,
           }
         ]}
       >
         <View style={styles.header}>
-          <Text style={styles.title}>Mom's Health</Text>
-          <Text style={styles.subtitle}>Track your well-being during pregnancy</Text>
+          <Text style={styles.title}>{t('momFeatures.screen.title')}</Text>
+          <Text style={styles.subtitle}>{t('momFeatures.screen.subtitle')}</Text>
         </View>
 
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Today's Mood</Text>
-          <Text style={styles.cardEmoji}>😊</Text>
-          <Text style={styles.cardDescription}>You're feeling great today!</Text>
+        <View style={styles.featuresGrid}>
+          <BloodTestFeature />
+          <View style={styles.featureSpacing} />
+          <KickCounterFeature />
         </View>
-
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Coming Soon</Text>
-          <Text style={styles.cardDescription}>
-            Track your weight, blood pressure, and other important health metrics.
-          </Text>
-          <TouchableOpacity
-            style={styles.signOutButton}
-            onPress={signOut}
-            disabled={loading}
-          >
-            <Text style={styles.signOutText}>
-              {loading ? 'Signing out...' : 'Sign Out'}
-            </Text>
-          </TouchableOpacity>
+        
+        <View style={[styles.featuresGrid, styles.rowSpacing]}>
+          <ContractionTrackerFeature />
+          <View style={styles.featureSpacing} />
+          <View style={styles.emptyFeature} />
         </View>
+        
       </ScrollView>
-    </LinearGradient>
+      </LinearGradient>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  gradient: {
     flex: 1,
   },
   scrollView: {
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    marginBottom: 24,
+    marginBottom: 20,
   },
   title: {
     fontSize: 32,
@@ -75,46 +74,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: theme.colors.text.secondary,
   },
-  card: {
-    backgroundColor: theme.colors.background.primary,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+  featuresGrid: {
+    flexDirection: 'row',
+    marginHorizontal: -8,
   },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: theme.colors.text.primary,
-    marginBottom: 8,
+  featureSpacing: {
+    width: 16,
   },
-  cardEmoji: {
-    fontSize: 48,
-    marginBottom: 8,
+  rowSpacing: {
+    marginTop: 16,
   },
-  cardDescription: {
-    fontSize: 14,
-    color: theme.colors.text.secondary,
-    lineHeight: 20,
-    marginBottom: 20,
-  },
-  signOutButton: {
-    backgroundColor: theme.colors.error,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  signOutText: {
-    color: theme.colors.text.light,
-    fontSize: 16,
-    fontWeight: '600',
+  emptyFeature: {
+    flex: 1,
+    minHeight: 180,
+    margin: 8,
   },
 });

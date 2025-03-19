@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View, Image, StyleSheet, Dimensions, ActivityIndicator, Text, Platform, TouchableOpacity } from 'react-native';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut, SlideInRight, SlideOutLeft, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { theme } from '@/styles/theme';
@@ -31,7 +31,7 @@ interface DevelopmentGalleryProps {
   week: number;
 }
 
-export function DevelopmentGallery({ week }: DevelopmentGalleryProps) {
+export function DevelopmentGallery({ week, direction = 'forward' }: DevelopmentGalleryProps) {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
   const [showInfo, setShowInfo] = useState(true);
@@ -116,60 +116,49 @@ export function DevelopmentGallery({ week }: DevelopmentGalleryProps) {
       <Text style={styles.aiTitle}>{t('development.aiImageTitle')}</Text>
       
       <Animated.View 
-        entering={FadeIn}
-        exiting={FadeOut}
+        entering={direction === 'forward' ? SlideInRight.duration(500) : SlideInLeft.duration(500)}
+        
         style={styles.imageContainer}
+        key={week}
       >
-        <Image
-          source={imageData.source}
-          style={styles.image}
-          resizeMode="contain"
-          onLoadStart={handleLoadStart}
-          onLoad={handleLoadSuccess}
-          onError={handleLoadError}
-          accessible={true}
-          accessibilityLabel={imageData.alt}
-        />
-
-        
-        
-        {loading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={theme.colors.primary} />
-          </View>
-        )}
-        
-        {error && (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{error}</Text>
-          </View>
-        )}
-        
-        {!loading && !error && (
-          <TouchableOpacity 
-            style={styles.infoButton} 
-            onPress={toggleInfo}
-            activeOpacity={0.7}
-          >
-            <Ionicons 
-              name={showInfo ? "close-circle" : "information-circle"} 
-              size={22} 
-              color="white" 
-            />
-          </TouchableOpacity>
-        )}
-             
-        {!loading && !error && showInfo && (
-          <>
+        <TouchableOpacity 
+          style={styles.touchableContainer}
+          onPress={toggleInfo}
+          activeOpacity={0.9}
+        >
+          <Image
+            source={imageData.source}
+            style={styles.image}
+            resizeMode="contain"
+            onLoadStart={handleLoadStart}
+            onLoad={handleLoadSuccess}
+            onError={handleLoadError}
+            accessible={true}
+            accessibilityLabel={imageData.alt}
+          />
+          
+          {loading && (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color={theme.colors.primary} />
+            </View>
+          )}
+          
+          {error && (
+            <View style={styles.errorContainer}>
+              <Text style={styles.errorText}>{error}</Text>
+            </View>
+          )}
+          
+          {!loading && !error && showInfo && (
             <LinearGradient
               colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0.05)']}
               style={styles.gradient}
             />
+          )}
+          
+          {!loading && !error && showInfo && (
             <View style={styles.infoOverlay}>
-              <Animated.View 
-                entering={FadeIn.duration(300)}
-                style={styles.infoContent}
-              >
+              <Animated.View entering={FadeIn.duration(300)} style={styles.infoContent}>
                 <View style={styles.infoRow}>
                   <View>
                     <Text style={styles.infoLabel}>{t('development.fruitComparison')}</Text>
@@ -186,8 +175,8 @@ export function DevelopmentGallery({ week }: DevelopmentGalleryProps) {
                 </View>
               </Animated.View>
             </View>
-          </>
-        )}
+          )}
+        </TouchableOpacity>
       </Animated.View>
     </View>
   );
@@ -217,6 +206,11 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  touchableContainer: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   image: {
     width: '100%',
     height: '100%',
@@ -244,18 +238,6 @@ const styles = StyleSheet.create({
     color: theme.colors.error,
     textAlign: 'center',
     fontSize: 14,
-  },
-
-  infoButton: {
-    position: 'absolute',
-    bottom: 5,
-    right: 8,
-    width: 20,
-    height: 20,
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 10,
   },
   
   infoOverlay: {
@@ -293,3 +275,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+export { DevelopmentGallery }

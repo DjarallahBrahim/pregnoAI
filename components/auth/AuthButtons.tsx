@@ -15,7 +15,6 @@ export function AuthButtons() {
   const [loading, setLoading] = React.useState(false);
 
   const handlePress = async () => {
-    
     setLoading(true);
 
     try {
@@ -33,7 +32,7 @@ export function AuthButtons() {
           if (profile) {
             router.replace('/(tabs)/baby');
           } else {
-            router.replace('/(tabs)/mom');
+            router.replace('/login');
           }
       } else {
         router.push('/login');
@@ -41,7 +40,7 @@ export function AuthButtons() {
     } catch (error) {
       console.error('Error checking profile:', error);
       if (session) {
-        router.replace('/onboarding');
+        router.replace('/login');
       }
     } finally {
       setLoading(false);

@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '@/styles/theme';
+import { useAuth } from '@/hooks/useAuth';
 
 const tools = [
   {
@@ -28,7 +29,7 @@ const tools = [
 
 export default function ToolsScreen() {
   const insets = useSafeAreaInsets();
-
+const { signOut, loading } = useAuth();
   return (
     <LinearGradient colors={theme.colors.gradients.primary} style={styles.container}>
       <ScrollView 
@@ -64,6 +65,15 @@ export default function ToolsScreen() {
             <Text style={styles.cardDescription}>{tool.description}</Text>
           </TouchableOpacity>
         ))}
+           <TouchableOpacity
+          style={styles.signOutButton}
+          onPress={signOut}
+          disabled={loading}
+        >
+          <Text style={styles.signOutText}>
+            {loading ? 'Signing out...' : 'Sign Out'}
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </LinearGradient>
   );
@@ -137,4 +147,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
   },
+    signOutButton: {
+    backgroundColor: theme.colors.error,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  signOutText: {
+    color: theme.colors.text.light,
+    fontSize: 16,
+    fontWeight: '600',
+  }
 });
