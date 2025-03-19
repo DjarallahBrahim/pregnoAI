@@ -3,30 +3,52 @@ import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-nati
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from '@/styles/theme';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { LinearGradient } from 'expo-linear-gradient';
 
 type WeekCircleProps = {
   week: number;
   isSelected: boolean;
+  isSpecialWeek: boolean;
   onPress: () => void;
   t: (key: string) => string;
 };
 
-const WeekCircle = ({ week, isSelected, onPress, t }: WeekCircleProps) => (
+const WeekCircle = ({ week, isSelected, isSpecialWeek, onPress, t }: WeekCircleProps) => (
+  <LinearGradient
+        colors={['#FF8FB1', '#FFA07A']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={styles.linearGradient}
+      >
   <TouchableOpacity
     onPress={onPress}
     style={[
       styles.weekCircle,
-      isSelected && styles.selectedWeek
+      isSelected && styles.selectedWeek,
+      isSpecialWeek && styles.specialWeek
     ]}
   >
-    <Text style={[styles.weekNumber, isSelected && styles.selectedText]}>
+    <Text 
+      style={[
+        styles.weekNumber, 
+        isSelected && styles.selectedText,
+        isSpecialWeek && styles.specialText
+      ]}
+    >
       {week}
     </Text>
 
-    <Text style={[styles.weekText, isSelected && styles.selectedText]}>
+    <Text 
+      style={[
+        styles.weekText, 
+        isSelected && styles.selectedText,
+        isSpecialWeek && styles.specialText
+      ]}
+    >
       {t('calendar.weekShort')}
     </Text>
   </TouchableOpacity>
+  </LinearGradient>
 );
 
 type Props = {
@@ -35,14 +57,19 @@ type Props = {
 };
 
 export function HorizontalCalendar({ currentWeek, onWeekChange }: Props) {
+  // Store the initial value of currentWeek in specialWeek
+  
+  
   const [selectedWeek, setSelectedWeek] = React.useState(currentWeek || 1);
   const { t } = useLanguage();
   const [contentWidth, setContentWidth] = React.useState(0);
+  const [specialWeek, setSpecialWeek] = React.useState(currentWeek);
   
   // Update selected week when currentWeek prop changes
   React.useEffect(() => {
     if (currentWeek && currentWeek !== selectedWeek) {
       setSelectedWeek(currentWeek);
+      setSpecialWeek(currentWeek);
     }
   }, [currentWeek]);
 
@@ -59,7 +86,7 @@ export function HorizontalCalendar({ currentWeek, onWeekChange }: Props) {
   
   React.useEffect(() => {
     if (selectedWeek && scrollViewRef.current) {
-      const itemWidth = 70; // week circle width
+      const itemWidth = 76; // week circle width
       const gap = 10; // gap between circles
       const screenWidth = contentWidth;
       
@@ -83,6 +110,7 @@ export function HorizontalCalendar({ currentWeek, onWeekChange }: Props) {
       style={styles.container}
       onLayout={(e) => setContentWidth(e.nativeEvent.layout.width)}
     >
+      
       <ScrollView
         ref={scrollViewRef}
         horizontal
@@ -94,6 +122,7 @@ export function HorizontalCalendar({ currentWeek, onWeekChange }: Props) {
             key={week}
             week={week}
             isSelected={week === selectedWeek}
+            isSpecialWeek={week === specialWeek}
             onPress={() => handleWeekSelect(week)}
             t={t}
           />
@@ -110,6 +139,13 @@ const styles = StyleSheet.create({
   scrollContent: { 
     gap: 10,
   },
+  linearGradient: {
+    height: 76,
+    width: 76,
+    borderRadius: 40, // <-- Outer Border Radius
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   weekCircle: {
     width: 70,
     height: 70,
@@ -117,22 +153,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    borderWidth: 2,
     borderColor: '#E5E7EB',
   },
   selectedWeek: {
-    backgroundColor: theme.colors.primary,
-    borderColor: theme.colors.secondary,
+   
+  },
+  specialWeek: {
+    backgroundColor: 'rgba(255, 143, 177, 0.0)', // Light yellow background
+    borderWidth:2,
+    borderColor: '#FB4D3D',
+  },
+  specialText: {
+    color: '#FFF', // Orange text for special week
   },
   weekNumber: {
     fontSize: 18,
     fontWeight: '700',
     color: theme.colors.text.primary,
-    marginBottom: -2,
-  },
-  weekLabel: {
-    fontSize: 12,
-    color: theme.colors.text.secondary,
     marginBottom: -2,
   },
   weekText: {
@@ -141,6 +178,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   selectedText: {
-    color: 'white',
+    color: theme.colors.primary,
+    fontSize: 20,
+    fontWeight: '900',
   },
+ 
 });

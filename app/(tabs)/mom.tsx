@@ -51,6 +51,7 @@ export default function MomScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.colors.gradients.primary[0],
   },
   gradient: {
     flex: 1,

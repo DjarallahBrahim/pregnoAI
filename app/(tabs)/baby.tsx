@@ -36,6 +36,7 @@ export default function BabyScreen() {
   const insets = useSafeAreaInsets();
   const [selectedWeek, setSelectedWeek] = React.useState(0);
   const [direction, setDirection] = React.useState<'forward' | 'backward'>('forward');
+  const [currentWeek, setCurrentWeek] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     fetchProfile();
@@ -45,6 +46,13 @@ export default function BabyScreen() {
     if (profile?.last_menstrual_period) {
       const lmpDate = new Date(profile.last_menstrual_period);
       setSelectedWeek(calculateWeeks(lmpDate));
+    }
+  }, [profile?.last_menstrual_period]);
+
+  React.useEffect(() => {
+    if (profile?.last_menstrual_period) {
+      const lmpDate = new Date(profile.last_menstrual_period);
+      setCurrentWeek(calculateWeeks(lmpDate));
     }
   }, [profile?.last_menstrual_period]);
 
@@ -94,6 +102,7 @@ export default function BabyScreen() {
                 {dueDate && (
                   <Text style={styles.dueDate}>{t('baby.dueDate')} {formatDueDate(dueDate)}</Text>
                 )}
+            
               </View>
               <View style={styles.profileContainer}>
                 <Image
@@ -174,6 +183,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: theme.colors.primary,
     fontWeight: '500',
+  },
+  currentWeek: {
+    fontSize: 16,
+    color: theme.colors.text.primary,
+    marginTop: 4,
   },
   profileContainer: {
     width: 40,

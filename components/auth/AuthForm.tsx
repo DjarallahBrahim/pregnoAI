@@ -191,13 +191,7 @@ export function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
               <TouchableOpacity onPress={handleForgotPassword}>
                 <Text style={[styles.forgotPassword, styles.mt2]}>{t('auth.forgotPassword')}</Text>
               </TouchableOpacity>
-              <View style={styles.checkboxContainer}>
-                <TouchableOpacity
-                  style={[styles.checkbox, styles.unchecked]}
-                  onPress={() => {}}
-                />
-                <Text style={styles.checkboxLabel}>{t('auth.saveLogin')}</Text>
-              </View>
+              
             </>
           )}
         </View>}

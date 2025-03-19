@@ -56,6 +56,22 @@ export function ContractionTrackerModal({ isVisible, onClose }: ContractionTrack
   // Variables
   const snapPoints = useMemo(() => ['90%'], []);
 
+  // Helper function to reset all state
+  const resetState = useCallback(() => {
+    // Clear timers
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    
+    // Reset all state values
+    setContractions([]);
+    setActiveContraction(null);
+    setTimer(0);
+    setRestTimer(0);
+    lastEndedContractionRef.current = null;
+  }, []);
+
   // Start a new contraction
   const startContraction = () => {
     if (activeContraction) return; // Prevent multiple active contractions
@@ -88,8 +104,6 @@ export function ContractionTrackerModal({ isVisible, onClose }: ContractionTrack
     timerRef.current = setInterval(() => {
       setTimer(prev => prev + 1);
     }, 1000);
-    
-    // Don't reset restTimer here - we'll display it for the previous contraction
   };
 
   // End the current contraction
@@ -125,8 +139,13 @@ export function ContractionTrackerModal({ isVisible, onClose }: ContractionTrack
 
   // Modal presentation handlers
   const handleSheetChanges = useCallback((index: number) => {
-    if (index === -1) onClose();
-  }, [onClose]);
+    if (index === -1) {
+      // Reset all state when bottom sheet is closed
+      resetState();
+      // Call the parent component's onClose callback
+      onClose();
+    }
+  }, [onClose, resetState]);
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -153,11 +172,12 @@ export function ContractionTrackerModal({ isVisible, onClose }: ContractionTrack
     }
   }, [isVisible, handlePresentModalPress]);
 
-  // Clean up timers
+  // Clean up timers on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) {
         clearInterval(timerRef.current);
+        timerRef.current = null;
       }
     };
   }, []);
@@ -175,16 +195,11 @@ export function ContractionTrackerModal({ isVisible, onClose }: ContractionTrack
     const isLast = index === contractions.length - 1;
     const isFirst = index === 0;
     
-    // For the first contraction (most recent):
-    // If there's no active contraction, show the live restTimer
-    // Otherwise, show the stored restTime
-    const showRestTimeValue = () => {
+    // Get rest time value
+    const restTimeValue = () => {
       if (isFirst && !activeContraction) {
-        // If there's an active contraction, we'll show the stored rest time
-        // Otherwise show the live rest timer
         return formatTimeMMSS(restTimer);
       } else if (item.restTime !== undefined) {
-        // For other contractions, show their stored rest time
         return formatTimeMMSS(item.restTime);
       } else {
         return '--:--';
@@ -216,7 +231,7 @@ export function ContractionTrackerModal({ isVisible, onClose }: ContractionTrack
             styles.intervalText, 
             isFirst && !activeContraction ? styles.restTimerText : null
           ]}>
-            {showRestTimeValue()}
+            {restTimeValue()}
           </Text>
           <View style={styles.intensityContainer}>
             {Array.from({ length: intensity }).map((_, i) => (
@@ -267,9 +282,6 @@ export function ContractionTrackerModal({ isVisible, onClose }: ContractionTrack
               </LinearGradient>
               {contractions.length > 0 && <View style={styles.timelineLine} />}
             </View>
-            {/* <View style={styles.rightColumn}>
-              <Text style={styles.intervalText}>--:--</Text>
-            </View> */}
           </Animated.View>
         )}
 

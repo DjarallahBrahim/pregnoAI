@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
   },
   mainImageContainer: {
     width: '100%',
-    height: height * 0.45,
+    height: height * 0.5,
     marginTop: height * 0.05,
     borderRadius: 24,
     overflow: 'hidden',

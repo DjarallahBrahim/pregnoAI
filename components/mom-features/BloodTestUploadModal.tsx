@@ -16,6 +16,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { BloodTestAnalysisView } from './BloodTestAnalysisView';
 import { analyzeBloodTest } from '@/lib/bloodTestAnalysis';
 import { useAuthStore } from '@/hooks/useAuthStore';
+import TextCarousel from '../TextCarousel';
+
 
 interface BloodTestUploadModalProps {
   isVisible: boolean;
@@ -41,6 +43,11 @@ export function BloodTestUploadModal({
   const [analyzing, setAnalyzing] = useState(false);
   const { t } = useLanguage();
   
+  const textList = [
+    `${t('momFeatures.bloodTest.upload.tips.image')} 🖼️`,
+    `${t('momFeatures.bloodTest.upload.tips.document')} 📄`,
+    `${t('momFeatures.bloodTest.upload.tips.text')} 📝`
+  ];
   // Variables
   const snapPoints = useMemo(() => ['80%'], []);
 
@@ -165,7 +172,30 @@ export function BloodTestUploadModal({
           onNewAnalysis={handleNewAnalysis}
         /> 
       : 
+        
         <View style={styles.contentContainer}>
+          <View style={styles.tagsContainer}>
+            <Ionicons name="warning-outline" size={16} color={theme.colors.error} />
+            <TextCarousel data={textList} interval={3000} />
+            {/* <View style={[styles.tag, { backgroundColor: '#FF7DA0' }]}>
+              <Ionicons name="image-outline" size={16} color='white' />
+              <Text style={styles.tagText}>{t('momFeatures.bloodTest.upload.tips.image')}</Text>
+            </View>
+            
+            <View style={[styles.tag, { backgroundColor: '#E5F6FF' }]}>
+              <Ionicons name="document-text-outline" size={16} color="#0099FF" />
+              <Text style={[styles.tagText, { color: '#0099FF' }]}>
+                {t('momFeatures.bloodTest.upload.tips.document')}
+              </Text>
+            </View>
+            
+            <View style={[styles.tag, { backgroundColor: '#F0FFE5' }]}>
+              <Ionicons name="text-outline" size={16} color="#4CAF50" />
+              <Text style={[styles.tagText, { color: '#4CAF50' }]}>
+                {t('momFeatures.bloodTest.upload.tips.text')}
+              </Text>
+            </View> */}
+          </View>
           <View style={styles.mainContent}>
           {!selectedFile ? (
             <TouchableOpacity 
@@ -221,26 +251,6 @@ export function BloodTestUploadModal({
           )}
           </View>
           
-          <View style={styles.tagsContainer}>
-            <View style={[styles.tag, { backgroundColor: '#FF7DA0' }]}>
-              <Ionicons name="image-outline" size={16} color='white' />
-              <Text style={styles.tagText}>{t('momFeatures.bloodTest.upload.tips.image')}</Text>
-            </View>
-            
-            <View style={[styles.tag, { backgroundColor: '#E5F6FF' }]}>
-              <Ionicons name="document-text-outline" size={16} color="#0099FF" />
-              <Text style={[styles.tagText, { color: '#0099FF' }]}>
-                {t('momFeatures.bloodTest.upload.tips.document')}
-              </Text>
-            </View>
-            
-            <View style={[styles.tag, { backgroundColor: '#F0FFE5' }]}>
-              <Ionicons name="text-outline" size={16} color="#4CAF50" />
-              <Text style={[styles.tagText, { color: '#4CAF50' }]}>
-                {t('momFeatures.bloodTest.upload.tips.text')}
-              </Text>
-            </View>
-          </View>
         </View>
       }
     </BottomSheetModal>
@@ -307,8 +317,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tagsContainer: {
-    gap: 12,
-     marginBottom: 30,
+    alignItems: 'center',
+    marginBottom: 100,
   },
   tag: {
     flexDirection: 'row',

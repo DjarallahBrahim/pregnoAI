@@ -14,7 +14,6 @@ export function FeaturesList() {
   ];
 
   return (
-    <BlurView intensity={60} style={styles.featuresWrapper} tint="light">
       <View style={styles.features}>
         {features.map((feature, index) => (
           <View key={index} style={styles.featureItem}>
@@ -29,6 +28,5 @@ export function FeaturesList() {
         </View>
       ))}
     </View>
-    </BlurView>
   );
 }
