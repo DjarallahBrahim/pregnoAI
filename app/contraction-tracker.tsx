@@ -87,10 +87,10 @@ export default function ContractionTrackerScreen() {
     if (contractions.length < 3) return false;
     
     // Check if average rest time is 2 minutes (120 seconds) or less
-    const isContractionCloseEnough = contractionStats.avgRestTime <= 200;
+    const isContractionCloseEnough = contractionStats.avgRestTime <= 10;
     
     // Check if average duration is 1 minute (60 seconds) or more
-    const isContractionLongEnough = contractionStats.avgDuration >= 55;
+    const isContractionLongEnough = contractionStats.avgDuration >= 5;
     
     // Show alert if both conditions are met
     return isContractionCloseEnough && isContractionLongEnough;

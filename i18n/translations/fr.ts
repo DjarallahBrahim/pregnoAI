@@ -907,6 +907,11 @@ export default {
       emptyStateMessage: "Chronométrez plusieurs contractions et l'application vous indiquera à quelle étape du travail vous vous trouvez.",
       contrcTimerTitle: "Durée",
       resteTimerTitle: "Interval"
+    },
+    babySize: {
+      title: 'Taille du\nBébé',
+      subtitle: 'Suivre la croissance de bébé',
+      badge: 'Info'
     }
   }
 };

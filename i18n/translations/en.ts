@@ -907,6 +907,11 @@ export default {
       emptyStateMessage: 'Time several contractions and the app will indicate which stage of labor you are in.',
       contrcTimerTitle: "Durée",
       resteTimerTitle: "Interval"
+    },
+    babySize: {
+      title: 'Baby\nSize',
+      subtitle: 'Track your baby\'s growth',
+      badge: 'Info'
     }
   }
 };

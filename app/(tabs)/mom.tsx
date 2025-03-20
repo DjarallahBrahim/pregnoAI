@@ -7,6 +7,7 @@ import { theme } from '@/styles/theme';
 import { BloodTestFeature } from '@/components/mom-features/BloodTestFeature';
 import { KickCounterFeature } from '@/components/mom-features/kickcounter/KickCounterFeature';
 import { ContractionTrackerFeature } from '@/components/mom-features/contractionTracker/ContractionTrackerFeature';
+import { BabySizeFeature } from '@/components/baby-size/BabySizeFeature';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function MomScreen() {
@@ -15,7 +16,7 @@ export default function MomScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={theme.colors.gradients.primary} style={styles.gradient}>
+      <LinearGradient colors={[theme.colors.gradients.primary[0], theme.colors.gradients.primary[1]]} style={styles.gradient}>
       <ScrollView 
         style={styles.scrollView} 
         contentContainerStyle={[
@@ -39,7 +40,7 @@ export default function MomScreen() {
         <View style={[styles.featuresGrid, styles.rowSpacing]}>
           <ContractionTrackerFeature />
           <View style={styles.featureSpacing} />
-          <View style={styles.emptyFeature} />
+          <BabySizeFeature />
         </View>
         
       </ScrollView>
