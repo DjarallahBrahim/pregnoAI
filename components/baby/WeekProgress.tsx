@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Platform } from 'react-native';
-import Animated, { FadeIn, FadeOut, SlideInRight, SlideOutLeft, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
+import Animated, { 
+  FadeIn, 
+  SlideInRight, 
+  SlideInLeft, 
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+  withSequence,
+  Easing
+} from 'react-native-reanimated';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { theme } from '@/styles/theme';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,39 +24,64 @@ interface WeekProgressProps {
 export function WeekProgress({ week, direction = 'forward', onPress }: WeekProgressProps) {
   const { t } = useLanguage();
   
+  // Animation value for rotation only
+  const rotation = useSharedValue(0);
+
+  // Set up animation when component mounts
+  useEffect(() => {
+    // Very gentle rotation
+    rotation.value = withRepeat(
+      withSequence(
+        withTiming(0.025, { duration: 1000, easing: Easing.inOut(Easing.ease) }),
+        withTiming(-0.025, { duration: 1000, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1, // infinite repetitions
+      true // reverse
+    );
+  }, []);
+
+  // Create animated style for the background with rotation only
+  const animatedBackgroundStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { rotate: `${rotation.value}rad` }
+      ]
+    };
+  });
 
   return (
     <View style={styles.container}>
       <Animated.View
         entering={direction === 'forward' ? SlideInRight.duration(500) : SlideInLeft.duration(500)}
-       
         key={week}
         style={styles.animatedContainer}
       >
-        <ImageBackground
-        source={require('../../assets/images/progress_bg.png')}
-        style={styles.background}
-        imageStyle={styles.backgroundImage}
-      >
-        <View style={styles.content}>
-          <View style={styles.weekContainer}>
-            <Text style={styles.weekNumber}>{week}</Text>
-            <Text style={styles.weekLabel}>{t('calendar.weekShort')}</Text>
-          </View>
-          
-          <View style={styles.footer}>
-            <Text style={styles.updateText}>{t('calendar.weeklyUpdate')}</Text>
-            <TouchableOpacity 
-              style={styles.button}
-              onPress={onPress}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.buttonText}>Ouvrir</Text>
-              <Ionicons name="chevron-forward" size={16} color={theme.colors.primary} />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ImageBackground>
+        <Animated.View style={[styles.backgroundContainer, animatedBackgroundStyle]}>
+          <ImageBackground
+            source={require('../../assets/images/progress_bg.png')}
+            style={styles.background}
+            imageStyle={styles.backgroundImage}
+          >
+            <View style={styles.content}>
+              <View style={styles.weekContainer}>
+                <Text style={styles.weekNumber}>{week}</Text>
+                <Text style={styles.weekLabel}>{t('calendar.weekShort')}</Text>
+              </View>
+              
+              <View style={styles.footer}>
+                <Text style={styles.updateText}>{t('calendar.weeklyUpdate')}</Text>
+                <TouchableOpacity 
+                  style={styles.button}
+                  onPress={onPress}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.buttonText}>Ouvrir</Text>
+                  <Ionicons name="chevron-forward" size={16} color={theme.colors.primary} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ImageBackground>
+        </Animated.View>
       </Animated.View>
     </View>
   );
@@ -72,6 +107,11 @@ const styles = StyleSheet.create({
         shadowColor: theme.colors.primary,
       },
     }),
+  },
+  backgroundContainer: {
+    flex: 1,
+    borderRadius: 24,
+    overflow: 'hidden',
   },
   background: {
     flex: 1,
@@ -100,7 +140,6 @@ const styles = StyleSheet.create({
     fontSize: 48,
     fontWeight: '700',
     color: theme.colors.primary,
-
     textShadowColor: 'rgba(0, 0, 0, 0.1)',
     textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,

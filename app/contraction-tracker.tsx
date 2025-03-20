@@ -16,6 +16,8 @@ import Animated, { FadeIn, SlideInLeft  } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import HospitalAlert from '@/components/mom-features/contractionTracker/HospitalAlert';
 import { triggerSelectionAsyncVibration } from '@/utils/haptics'; // Import your vibration utility
+import { useNavigation } from '@react-navigation/native';
+
 
 const { width } = Dimensions.get('window');
 
@@ -42,6 +44,7 @@ const formatTimeHHMM = (date: Date): string => {
 
 export default function ContractionTrackerScreen() {
   const { t } = useLanguage();
+  const navigation = useNavigation();
   const [contractions, setContractions] = useState<Contraction[]>([]);
   const [activeContraction, setActiveContraction] = useState<Contraction | null>(null);
   const [timer, setTimer] = useState(0);
@@ -225,11 +228,27 @@ export default function ContractionTrackerScreen() {
     );
   };
 
+  // Handle back navigation
+  const handleBack = () => {
+    navigation.goBack();
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.header}>
+          <TouchableOpacity 
+            style={styles.backButton} 
+            onPress={handleBack}
+          >
+            <Ionicons 
+              name="chevron-back" 
+              size={24} 
+              color={theme.colors.text.primary} 
+            />
+          </TouchableOpacity>
           <Text style={styles.title}>{t('momFeatures.contractionTracker.modalTitle')}</Text>
+          <View style={styles.headerRightPlaceholder} />
         </View>
 
         <View style={styles.statsContainer}>
@@ -337,13 +356,24 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
+    flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 20,
+    width: '100%',
+  },
+  backButton: {
+    padding: 8,
   },
   title: {
     fontSize: 20,
     fontWeight: '700',
     color: theme.colors.text.primary,
+    flex: 1,
+    textAlign: 'center',
+  },
+  headerRightPlaceholder: {
+    width: 40, // Same width as back button for balanced layout
   },
   timelineList: {
     flex: 1,
