@@ -12,8 +12,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '@/styles/theme';
 import { useLanguage } from '@/contexts/LanguageContext';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import Animated, { FadeIn, SlideInLeft  } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
+import HospitalAlert from '@/components/mom-features/contractionTracker/HospitalAlert';
+import { triggerSelectionAsyncVibration } from '@/utils/haptics'; // Import your vibration utility
 
 const { width } = Dimensions.get('window');
 
@@ -76,6 +78,20 @@ export default function ContractionTrackerScreen() {
       avgRestTime
     };
   }, [contractions, activeContraction]);
+  //  logic to determine when to display the alert hospital
+  const shouldShowHospitalAlert = useMemo(() => {
+    // Check if there are enough contractions to make a meaningful calculation
+    if (contractions.length < 3) return false;
+    
+    // Check if average rest time is 2 minutes (120 seconds) or less
+    const isContractionCloseEnough = contractionStats.avgRestTime <= 200;
+    
+    // Check if average duration is 1 minute (60 seconds) or more
+    const isContractionLongEnough = contractionStats.avgDuration >= 55;
+    
+    // Show alert if both conditions are met
+    return isContractionCloseEnough && isContractionLongEnough;
+  }, [contractionStats.avgRestTime, contractionStats.avgDuration, contractions.length]);
 
   // Start a new contraction
   const startContraction = () => {
@@ -109,6 +125,7 @@ export default function ContractionTrackerScreen() {
     timerRef.current = setInterval(() => {
       setTimer(prev => prev + 1);
     }, 1000);
+    triggerSelectionAsyncVibration();
   };
 
   // End the current contraction
@@ -233,7 +250,12 @@ export default function ContractionTrackerScreen() {
             <Text style={styles.statLabel}>{t('momFeatures.contractionTracker.avgRestTime')}</Text>
           </View>
         </View>
-
+        
+        <View style={styles.titleContainer}>
+          <Text style={styles.text}>{t('momFeatures.contractionTracker.contrcTimerTitle')}</Text>
+          <Text style={styles.text}>{t('momFeatures.contractionTracker.resteTimerTitle')}</Text>
+        </View>
+     
         {/* Empty state message */}
         {contractions.length === 0 && !activeContraction && (
           <View style={styles.emptyStateContainer}>
@@ -272,7 +294,14 @@ export default function ContractionTrackerScreen() {
           style={styles.timelineList}
           contentContainerStyle={styles.timelineContent}
         />
-
+        {shouldShowHospitalAlert && (
+          <Animated.View
+          entering={SlideInLeft.duration(600).springify()}
+          style={styles.alertContainer}
+          >
+            <HospitalAlert />
+          </Animated.View>
+        )}
         {/* Action button */}
         <TouchableOpacity
           style={[
@@ -455,5 +484,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: theme.colors.text.secondary,
     lineHeight: 24,
+  },
+  titleContainer:{
+    flexDirection: 'row', // Arrange children in a row
+    justifyContent: 'space-between', // Add space between the texts
+    alignItems: 'center', // Align items vertically in the center
+    paddingHorizontal: 32, // Add horizontal padding
+    paddingBottom: 12, // Add vertical padding
+  },
+  text: {
+    fontSize: 14, // Optional: Adjust font size
+    fontWeight: '500', // Optional: Make text bold
+    color: theme.colors.text.secondary,
+  },
+  alertContainer: {
+    marginBottom: 16,
   },
 });

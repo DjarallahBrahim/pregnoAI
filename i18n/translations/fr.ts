@@ -904,7 +904,9 @@ export default {
       restTime: 'Temps de Repos',
       totalContractionCount: 'Total',
       avgRestTime: 'Repos moyen',
-      emptyStateMessage: "Chronométrez plusieurs contractions et l'application vous indiquera à quelle étape du travail vous vous trouvez."
+      emptyStateMessage: "Chronométrez plusieurs contractions et l'application vous indiquera à quelle étape du travail vous vous trouvez.",
+      contrcTimerTitle: "Durée",
+      resteTimerTitle: "Interval"
     }
   }
 };
