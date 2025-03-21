@@ -1,17 +1,20 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { theme } from '@/styles/theme';
 import { Ionicons } from '@expo/vector-icons';
 
 export function BabySizeFeature() {
+  const router = useRouter();
   const { t } = useLanguage();
   
   return (
     <TouchableOpacity 
       style={styles.container}
       activeOpacity={0.9}
+      onPress={() => router.push('/baby-size')}
     >
       <LinearGradient
         colors={['rgba(255, 143, 177, 0.1)', 'rgba(255, 143, 177, 0.2)']}
@@ -111,4 +114,4 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
-}); 
+});
