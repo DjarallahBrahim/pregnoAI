@@ -10,6 +10,7 @@ import { WeekProgress } from '@/components/baby/WeekProgress';
 import { HorizontalCalendar } from '@/components/baby/HorizontalCalendar';
 import { DevelopmentGallery } from '@/components/baby/DevelopmentGallery';
 import { ActionTimeline } from '@/components/baby/ActionTimeline';
+import BabySizeWidget from '@/components/baby/BabySizeWidget';
 
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import dayjs from 'dayjs';
@@ -121,7 +122,7 @@ export default function BabyScreen() {
               <DevelopmentGallery week={selectedWeek} direction={direction} />
             <WeekProgress week={selectedWeek} direction={direction} />
               <ActionTimeline week={selectedWeek} direction={direction} />
-            
+              <BabySizeWidget currentWeek={currentWeek} />
 
             
           </ScrollView>
