@@ -36,6 +36,7 @@ export default function TabLayout() {
       height: tabBarHeight,
       marginBottom: Platform.OS === 'ios' ? 20 : 10,
       paddingBottom: insets.bottom,
+      
     },
     tabBarItemStyle: {
       height: tabBarHeight,
@@ -96,15 +97,17 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    overflow: 'hidden',
+    ...Platform.select({
+      ios: {
+        shadowColor: theme.colors.primary,
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.4,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   iconContainer: {
     padding: 0,

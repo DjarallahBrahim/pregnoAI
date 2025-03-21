@@ -16,15 +16,10 @@ export default function MomScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={[theme.colors.gradients.primary[0], theme.colors.gradients.primary[1]]} style={styles.gradient}>
+      <LinearGradient colors={theme.colors.gradients.secondary} style={styles.gradient}>
       <ScrollView 
         style={styles.scrollView} 
-        contentContainerStyle={[
-          styles.content,
-          {
-            paddingBottom: insets.bottom,
-          }
-        ]}
+        contentContainerStyle={[styles.content]}
       >
         <View style={styles.header}>
           <Text style={styles.title}>{t('momFeatures.screen.title')}</Text>
@@ -52,7 +47,7 @@ export default function MomScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.gradients.primary[0],
+    backgroundColor: theme.colors.gradients.secondary[0],
   },
   gradient: {
     flex: 1,

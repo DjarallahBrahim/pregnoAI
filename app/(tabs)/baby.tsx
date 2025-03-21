@@ -88,7 +88,7 @@ export default function BabyScreen() {
   return (
     <ErrorBoundary>
       <SafeAreaView style={styles.container}>
-        <LinearGradient colors={theme.colors.gradients.primary} style={styles.gradient}>
+        <LinearGradient colors={theme.colors.gradients.secondary} style={styles.gradient}>
           <ScrollView 
             style={styles.scrollView} 
             contentContainerStyle={[
@@ -148,7 +148,7 @@ function getMoodDescription(moodIndex: number): string {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.gradients.primary[0],
+    backgroundColor: theme.colors.gradients.secondary[0],
   },
   gradient: {
     flex: 1,

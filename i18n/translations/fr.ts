@@ -7,6 +7,7 @@ export default {
     aiImageTitle: 'Comment notre IA imagine votre bébé :',
     fruitComparison: 'Votre bébé a la taille d\'un(e)',
     size: 'Taille',
+    weight: 'Poids',
     keyChanges: 'Changements Clés',
     gallery: {
       "week-1-3": {
@@ -849,7 +850,7 @@ export default {
   },
   momFeatures: {
     bloodTest: {
-      title: 'Analyse de\nSang',
+      title: 'Analyse de Sang',
       subtitle: 'Analyses par IA',
       badge: 'IA',
       upload: {
@@ -872,7 +873,7 @@ export default {
       }
     },
     kickCounter: {
-      title: 'Compteur de\nCoups',
+      title: 'Compteur de Coups',
       subtitle: 'Suivre les Mouvements',
       badge: 'Suivi',
       modalTitle: 'Compteur de Coups',
@@ -890,7 +891,7 @@ export default {
       subtitle: 'Suivez votre bien-être pendant la grossesse'
     },
     contractionTracker: {
-      title: 'Suivi des\nContractions',
+      title: 'Suivi des Contractions',
       subtitle: 'Surveiller les Contractions',
       badge: 'Suivi',
       modalTitle: 'Contractions',
@@ -909,7 +910,7 @@ export default {
       resteTimerTitle: "Interval"
     },
     babySize: {
-      title: 'Taille du\nBébé',
+      title: 'Taille du Bébé',
       subtitle: 'Suivre la croissance de bébé',
       badge: 'Info'
     }

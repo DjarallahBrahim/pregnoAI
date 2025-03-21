@@ -5,6 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '@/styles/theme';
 import { useAuth } from '@/hooks/useAuth';
+import { LanguageSelector } from '@/components/LanguageSelector';
 
 const tools = [
   {
@@ -31,7 +32,7 @@ export default function ToolsScreen() {
   const insets = useSafeAreaInsets();
 const { signOut, loading } = useAuth();
   return (
-    <LinearGradient colors={theme.colors.gradients.primary} style={styles.container}>
+    <LinearGradient colors={theme.colors.gradients.secondary} style={styles.container}>
       <ScrollView 
         style={styles.scrollView} 
         contentContainerStyle={[
@@ -74,6 +75,8 @@ const { signOut, loading } = useAuth();
             {loading ? 'Signing out...' : 'Sign Out'}
           </Text>
         </TouchableOpacity>
+
+        <LanguageSelector />
       </ScrollView>
     </LinearGradient>
   );

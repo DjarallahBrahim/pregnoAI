@@ -33,18 +33,14 @@ export const LanguageSelector = memo(function LanguageSelector() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    position: 'absolute',
-    top: 40,
-    right: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
     borderRadius: 20,
     padding: 4,
-    zIndex: 1000,
   },
   button: {
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
+    
   },
   activeButton: {
     backgroundColor: theme.colors.primary,

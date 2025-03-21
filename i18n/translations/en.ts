@@ -7,86 +7,101 @@ export default {
     aiImageTitle: 'How our AI imagines your baby:',
     fruitComparison: 'Your baby is about the size of a',
     size: 'Size',
+    weight: 'Weight',
     keyChanges: 'Key Changes',
     gallery: {
       "week-1-3": {
         "fruits": "Poppy seed",
         "taille": "~0.1-0.2 mm",
         "adjectif_ou_autre_nom": "Microscopic beginnings",
-        "changement": "Fertilization and implantation"
+        "changement": "Fertilization and implantation",
+        "weight": "<1 g"
       },
       "week-4-6": {
         "fruits": "Sweet pea",
         "taille": "~1-5 mm",
         "adjectif_ou_autre_nom": "Early beginnings",
-        "changement": "Heart development"
+        "changement": "Heart development",
+        "weight": "<1 g"
       },
       "week-7-9": {
         "fruits": "Cherry",
         "taille": "~6-22 mm",
         "adjectif_ou_autre_nom": "First formations",
-        "changement": "Limb buds"
+        "changement": "Limb buds",
+        "weight": "1-3 g"
       },
       "week-10-12": {
         "fruits": "Plum",
         "taille": "~3-6 cm",
         "adjectif_ou_autre_nom": "Steady growth",
-        "changement": "Well-formed fingers"
+        "changement": "Well-formed fingers",
+        "weight": "4-14 g"
       },
       "week-13-15": {
         "fruits": "Apple",
         "taille": "~7-10 cm",
         "adjectif_ou_autre_nom": "More defined",
-        "changement": "Fingerprints appearing"
+        "changement": "Fingerprints appearing",
+        "weight": "20-70 g"
       },
       "week-16-18": {
         "fruits": "Avocado",
         "taille": "~11-14 cm",
         "adjectif_ou_autre_nom": "Active growth",
-        "changement": "First movements felt"
+        "changement": "First movements felt",
+        "weight": "100-200 g"
       },
       "week-19-21": {
         "fruits": "Banana",
         "taille": "~15-26 cm",
         "adjectif_ou_autre_nom": "Halfway mark reached",
-        "changement": "Advanced hearing development"
+        "changement": "Advanced hearing development",
+        "weight": "240-360 g"
       },
       "week-22-24": {
         "fruits": "Melon",
         "taille": "~27-30 cm",
         "adjectif_ou_autre_nom": "Rapid development",
-        "changement": "Less translucent skin"
+        "changement": "Less translucent skin",
+        "weight": "430-600 g"
       },
       "week-25-27": {
         "fruits": "Cauliflower",
         "taille": "~31-36 cm",
         "adjectif_ou_autre_nom": "Getting stronger",
-        "changement": "Sucking reflex"
+        "changement": "Sucking reflex",
+        "weight": "660-900 g"
       },
       "week-28-30": {
         "fruits": "Eggplant",
         "taille": "~37-40 cm",
         "adjectif_ou_autre_nom": "Almost ready",
-        "changement": "Beginning temperature regulation"
+        "changement": "Beginning temperature regulation",
+        "weight": "1.0-1.5 kg"
       },
       "week-31-33": {
         "fruits": "Coconut",
         "taille": "~41-44 cm",
         "adjectif_ou_autre_nom": "Final touches",
-        "changement": "Fat storage"
+        "changement": "Fat storage",
+        "weight": "1.6-2.0 kg"
       },
       "week-34-36": {
         "fruits": "Winter melon",
         "taille": "~45-48 cm",
         "adjectif_ou_autre_nom": "Almost there",
-        "changement": "Advanced lung maturation"
+        "changement": "Advanced lung maturation",
+        "weight": "2.1-2.5 kg"
       },
       "week-37-41": {
         "fruits": "Watermelon",
         "taille": "~49-52 cm",
         "adjectif_ou_autre_nom": "Ready to be born",
-        "changement": "Limited movements due to space"
+        "changement": "Limited movements due to space",
+        "weight": "2.8-3.4 kg"
       }
+    },  
     },
     pregnancy_plan: {
     "week-1": {
@@ -769,9 +784,6 @@ export default {
         }
       ]
     }
-  },
-
-
   },
   features: {
     dueDate: 'Due Date\nCalculator',

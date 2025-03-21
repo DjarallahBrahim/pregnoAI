@@ -19,17 +19,19 @@ export const theme = {
     background: {
       primary: '#FFFFFF',
       secondary: 'rgba(255, 255, 255, 0.8)',
-      tertiary: 'rgba(255, 255, 255, 0.6)',
+      tertiary: '#e9ecef',
     },
     text: {
       primary: '#6B6969',
-      secondary: '#666666',
+      secondary: '#080808',
       light: '#FFFFFF',
     },
     gradients: {
       primary: ['#F8F5E9', '#F8F5E9'],
+      secondary: ['#FFFFFF','#FFFFFF'],
     },
     border: '#E9ECEF',
+    border_colored:'#4A90E2',
     error: '#FF3B30',
     success: '#34C759',
     warning: '#FF9500',
