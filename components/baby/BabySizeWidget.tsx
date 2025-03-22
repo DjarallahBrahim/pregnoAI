@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { TouchableOpacity, Text, View, Image, StyleSheet, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { theme } from '@/styles/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import Animated, { 
+  useAnimatedStyle, 
+  useSharedValue, 
+  withRepeat, 
+  withSequence, 
+  withTiming,
+  Easing,
+  SlideInRight,
+  SlideInLeft
+} from 'react-native-reanimated';
+import { useLanguage } from '@/contexts/LanguageContext';
 
-const BabySizeWidget = ({ currentWeek }) => {
+
+
+const BabySizeWidget = ({ currentWeek, direction = 'forward' }) => {
   const router = useRouter();
+  const { t } = useLanguage();
+  // Animation setup
+  const rotation = useSharedValue(0);
   
   // Determine which week range the current week falls into
   const getWeekRange = (week) => {
@@ -45,107 +62,170 @@ const BabySizeWidget = ({ currentWeek }) => {
     return images[week] || images['1-3']; // Default
   };
 
-  const weekRange = getWeekRange(currentWeek);
-  const imageSource = getImageSource(weekRange);
+  const weekRangeKey = useMemo(() => {
+    // Handle edge cases
+    if (currentWeek <= 0) return "week-1-3";
+    if (currentWeek >= 37) return "week-37-41";
+    
+    // Calculate the week range
+    const weekRange = Math.floor((currentWeek - 1) / 3) * 3 + 1;
+    const endWeek = weekRange + 2;
+    
+    // Format the key to match the data structure
+    return `week-${weekRange}-${endWeek}`;
+  }, [currentWeek]);
+ // Update weekData to use translations
+ const weekData = useMemo(() => {
+  try {
+    return {
+      fruits: t(`development.gallery.${weekRangeKey}.fruits`),
+      taille: t(`development.gallery.${weekRangeKey}.taille`),
+      adjectif_ou_autre_nom: t(`development.gallery.${weekRangeKey}.adjectif_ou_autre_nom`),
+      changement: t(`development.gallery.${weekRangeKey}.changement`)
+    };
+  } catch (e) {
+    // Fallback to first week if translation is missing
+    return {
+      fruits: t('development.gallery.week-1-3.fruits'),
+      taille: t('development.gallery.week-1-3.taille'),
+      adjectif_ou_autre_nom: t('development.gallery.week-1-3.adjectif_ou_autre_nom'),
+      changement: t('development.gallery.week-1-3.changement')
+    };
+  }
+}, [weekRangeKey, t]);
+  // Use useMemo to recalculate when currentWeek changes
+  const weekRange = useMemo(() => getWeekRange(currentWeek), [currentWeek]);
+  const imageSource = useMemo(() => getImageSource(weekRange), [weekRange]);
+  
+  // Set up the rotation animation
+  useEffect(() => {
+    // Very gentle rotation
+    rotation.value = withRepeat(
+      withSequence(
+        withTiming(-0.025, { duration: 1000, easing: Easing.inOut(Easing.ease) }),
+        withTiming(0.025, { duration: 1000, easing: Easing.inOut(Easing.ease) })
+      ),
+      -1, // infinite repetitions
+      true // reverse
+    );
+  }, []);
+
+  // Create animated style for the widget with rotation
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { rotate: `${rotation.value}rad` }
+      ]
+    };
+  });
 
   return (
-    
-    <TouchableOpacity
-      style={[
-        styles.container
-      ]}
-      activeOpacity={0.9}
-      onPress={() => router.push('/baby-size')}
-    >
-      <View style={styles.content}>
-        <Text style={[styles.title, { color: theme.colors.text.primary }]}>
-          Bébé à la taille d'un/e mangue !
-        </Text>
-        <Text style={[styles.subtitle, { color: theme.colors.text.primary }]}>
-          Cliquez pour voir !
-        </Text>
-      </View>
+    <View style={styles.container}>
+      <Animated.View
+        entering={direction === 'forward' ? SlideInRight.duration(500) : SlideInLeft.duration(500)}
+        key={currentWeek}
+        style={[styles.animatedContainer, animatedStyle]}
+      >
+        <TouchableOpacity
+          style={styles.touchable}
+          activeOpacity={0.9}
+          onPress={() => {
+            router.push({ pathname: '/baby-size', params: { weekrange: weekRange, } });
+          }}
+          
+        >
+          <LinearGradient
+            colors={theme.colors.gradients.tertiary}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.gradient}
+          >
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>
+            {t('development.fruitComparison')} {weekData.fruits} !
+            </Text>
+            <Text style={styles.subtitle}>
+              {t('development.clickToSee')}
+            </Text>
+          </View>
 
-      <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.image} />
-      </View>
-    </TouchableOpacity>
+          <View style={styles.imageContainer}>
+            <Image source={imageSource} style={styles.image} />
+          </View>
+        </LinearGradient>
+      </TouchableOpacity>
+      </Animated.View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    borderRadius: 16,
-    padding: 20,
-    marginVertical: 10,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    overflow: 'hidden',
-    ...Platform.select({
-      android: {
-        elevation: 8,
-      },
-    }),
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-  },
-  container2: {
-    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 5,
     ...Platform.select({
       ios: {
         shadowColor: theme.colors.primary,
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.5,
-        shadowRadius: 12,
+        shadowOffset: { width: 4, height: 4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
       },
-      android: {
-        elevation: 12,
-        shadowColor: theme.colors.primary,
-      },
-    }),
-    marginHorizontal: 20,
-    marginVertical: 10,
-    height: 160,
-  },
-  content: {
-    width: '100%',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '700',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 14,
-    fontWeight: '500',
-    textAlign: 'center',
-    opacity: 0.8,
-  },
-  imageContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    ...Platform.select({
       android: {
         elevation: 4,
       },
     }),
   },
+  animatedContainer: {
+    width: '100%',
+  },
+  touchable: {
+    width: '100%',
+    borderRadius: 24,
+    overflow: 'hidden',
+    
+  },
+  gradient: {
+    width: '100%',
+    padding: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    paddingVertical: 10,
+  },
+  textContainer: {
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 6,
+    color: '#674A6F',
+  },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    textAlign: 'center',
+    color: '#674A6F',
+    opacity: 0.85,
+  },
+  imageContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    padding: 0,
+    
+  },
   image: {
-    width: 70,
-    height: 70,
+    width: 120,
+    height: 120,
     resizeMode: 'contain',
   },
 });

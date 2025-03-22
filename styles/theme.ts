@@ -29,6 +29,7 @@ export const theme = {
     gradients: {
       primary: ['#F8F5E9', '#F8F5E9'],
       secondary: ['#FFFFFF','#FFFFFF'],
+      tertiary: ['#e0c3e0', '#f8d5e5']
     },
     border: '#E9ECEF',
     border_colored:'#4A90E2',

@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { theme } from '@/styles/theme';
+import { useLocalSearchParams } from 'expo-router';
 
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -38,10 +39,19 @@ const getImageSource = (week) => {
 };
 
 const BabySizeScreen = () => {
+  const params = useLocalSearchParams();
+  const { weekrange } = params;
+  
+  console.log('weekrange:', weekrange);
   const navigation = useNavigation();
   const { t } = useLanguage();
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [selectedWeek, setSelectedWeek] = useState(weekRanges[0]);
+  
+  // Find the index of the weekrange in the weekRanges array
+  const initialIndex = weekrange ? weekRanges.findIndex(range => range === weekrange) : 0;
+  const validInitialIndex = initialIndex >= 0 ? initialIndex : 0; // Default to 0 if not found
+  
+  const [selectedIndex, setSelectedIndex] = useState(validInitialIndex);
+  const [selectedWeek, setSelectedWeek] = useState(weekRanges[validInitialIndex]);
   const carouselRef = useRef(null);
   const flatListRef = useRef(null);
   const ITEM_WIDTH = 60; // Approximate width of each week item
@@ -78,11 +88,13 @@ const BabySizeScreen = () => {
     centerSelectedItem(index);
   };
 
-  // Use useEffect to center the first element when the component mounts
+  // Use useEffect to center the correct element when the component mounts
   useEffect(() => {
-    // Give time for the FlatList to render properly first
+    // Give time for the FlatList and Carousel to render properly first
     const timer = setTimeout(() => {
       centerSelectedItem(selectedIndex);
+      // Also scroll carousel to the correct index
+      carouselRef.current?.scrollTo({ index: selectedIndex });
     }, 300);
     
     return () => clearTimeout(timer);
@@ -191,7 +203,7 @@ const BabySizeScreen = () => {
               </Text>
             </TouchableOpacity>
           )}
-          initialScrollIndex={0}
+          initialScrollIndex={selectedIndex}
           getItemLayout={getItemLayout}
           onLayout={() => {
             // Center the initial selected item when component mounts
@@ -390,8 +402,7 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: theme.colors.text.secondary
-    ,
+    color: theme.colors.text.secondary,
   },
   statNote: {
     fontSize: 12,

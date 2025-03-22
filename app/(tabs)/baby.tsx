@@ -122,7 +122,7 @@ export default function BabyScreen() {
               <DevelopmentGallery week={selectedWeek} direction={direction} />
             <WeekProgress week={selectedWeek} direction={direction} />
               <ActionTimeline week={selectedWeek} direction={direction} />
-              <BabySizeWidget currentWeek={currentWeek} />
+              <BabySizeWidget currentWeek={selectedWeek} direction={direction} />
 
             
           </ScrollView>

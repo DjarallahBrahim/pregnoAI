@@ -9,6 +9,7 @@ export default {
     size: 'Size',
     weight: 'Weight',
     keyChanges: 'Key Changes',
+    clickToSee: 'Click to see',
     gallery: {
       "week-1-3": {
         "fruits": "Poppy seed",
@@ -102,8 +103,8 @@ export default {
         "weight": "2.8-3.4 kg"
       }
     },  
-    },
-    pregnancy_plan: {
+  },
+  pregnancy_plan: {
     "week-1": {
       "actions": [
         {

@@ -9,6 +9,7 @@ export default {
     size: 'Taille',
     weight: 'Poids',
     keyChanges: 'Changements Clés',
+    clickToSee: 'Cliquer pour voir',
     gallery: {
       "week-1-3": {
         "fruits": "Graine de pavot",
