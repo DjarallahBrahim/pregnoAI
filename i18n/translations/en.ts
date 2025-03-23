@@ -103,688 +103,688 @@ export default {
         "weight": "2.8-3.4 kg"
       }
     },  
-  },
-  pregnancy_plan: {
-    "week-1": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Confirm pregnancy with urine/blood test"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Start folic acid (5 mg/day)"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Complete initial blood test (mandatory): blood type, Rh factor, serology"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid alcohol, drugs, and chemical products"
-        },
-        {
-          "category": "Child Development",
-          "action": "Conception: embryo begins to form"
-        }
-      ]
+    pregnancy_plan: {
+      "week-1": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Confirm pregnancy with urine/blood test"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Start folic acid (5 mg/day)"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Complete initial blood test (mandatory): blood type, Rh factor, serology"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid alcohol, drugs, and chemical products"
+          },
+          {
+            "category": "Child Development",
+            "action": "Conception: embryo begins to form"
+          }
+        ]
+      },
+      "week-2": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor nausea and fatigue"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Prioritize iron-rich foods (meat, leafy greens)"
+          },
+          {
+            "category": "Couple and Parenting",
+            "action": "Discuss expectations with your partner"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid raw or undercooked foods (toxoplasmosis risk)"
+          }
+        ]
+      },
+      "week-3": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Early pregnancy symptoms (sensitivity to smells)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Drink 1.5L water daily"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Schedule first prenatal appointment"
+          },
+          {
+            "category": "Child Development",
+            "action": "Initial cell differentiation"
+          }
+        ]
+      },
+      "week-4": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Avoid non-prescribed medications"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Add vitamin C-rich fruits (oranges, kiwi)"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid prolonged standing during travel"
+          }
+        ]
+      },
+      "week-5": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "First fetal heartbeat detected"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid uncooked fatty fish (e.g., smoked salmon)"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Confirm Rh factor status"
+          }
+        ]
+      },
+      "week-6": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Dating ultrasound (mandatory): confirms pregnancy and gestational age"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Increase complex carbohydrates (pasta, whole grains)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of internal organs and limbs"
+          }
+        ]
+      },
+      "week-7": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Trisomy 21 screening (optional): nuchal translucency measurement"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Limit caffeine (≤200mg/day)"
+          },
+          {
+            "category": "Beauty",
+            "action": "Start anti-stretch mark cream"
+          }
+        ]
+      },
+      "week-8": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor bleeding (possible ectopic pregnancy)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat leafy greens (spinach, kale)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of eyelids and ears"
+          }
+        ]
+      },
+      "week-9": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Non-invasive prenatal test (NIPT, optional)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Prioritize lean proteins (eggs, tofu)"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid radiation exposure"
+          }
+        ]
+      },
+      "week-10": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Formation of fingers and toes"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Add nuts (almonds, walnuts)"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Verify health insurance coverage"
+          }
+        ]
+      },
+      "week-11": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Trisomy 21 screening (optional) window closes"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid high-mercury fish (tuna, swordfish)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of digestive organs"
+          }
+        ]
+      },
+      "week-12": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Repeat dating ultrasound if not done"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Drink calcium-fortified milk"
+          },
+          {
+            "category": "Couple and Parenting",
+            "action": "Plan couple activities (walking, prenatal yoga)"
+          }
+        ]
+      },
+      "week-13": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Formation of central nervous system"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid spicy foods (risk of heartburn)"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Schedule morphological ultrasound (starting week 20)"
+          }
+        ]
+      },
+      "week-14": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor cervical length (if at risk)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat fresh fruits (apples, bananas)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of sex glands"
+          }
+        ]
+      },
+      "week-15": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Second trimester begins: reduced nausea"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Include dairy (yogurt, cheese)"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid excessive vitamin A intake"
+          }
+        ]
+      },
+      "week-16": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Second-trimester blood tests (optional)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat lean fish (sardines, mackerel)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of hair and nails"
+          }
+        ]
+      },
+      "week-17": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor Rh antibodies (if Rh-negative)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid raw eggs or meats"
+          },
+          {
+            "category": "Couple and Parenting",
+            "action": "Schedule couple prenatal visit"
+          }
+        ]
+      },
+      "week-18": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Second-trimester blood tests (optional) window closes"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Increase fiber (vegetables, dried fruits)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of muscles and bones"
+          }
+        ]
+      },
+      "week-19": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor weight and blood pressure"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid fried foods"
+          },
+          {
+            "category": "Prevention",
+            "action": "Confirm toxoplasmosis immunity status"
+          }
+        ]
+      },
+      "week-20": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Morphological ultrasound (mandatory): checks organ formation"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat colorful vegetables (carrots, broccoli)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of hands and feet"
+          }
+        ]
+      },
+      "week-21": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Repeat morphological ultrasound (mandatory)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Add whole grains (oats, quinoa)"
+          },
+          {
+            "category": "Couple and Parenting",
+            "action": "Plan childbirth preparation classes"
+          }
+        ]
+      },
+      "week-22": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Repeat morphological ultrasound (mandatory)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid trans fats"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Choose delivery hospital"
+          }
+        ]
+      },
+      "week-23": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor fetal movements"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat fresh fruits (melon, watermelon)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of nails and hair"
+          }
+        ]
+      },
+      "week-24": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "O'Sullivan Test (HGPO) for gestational diabetes (mandatory)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Limit refined sugars (chocolate, cakes)"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid long trips without medical supervision"
+          }
+        ]
+      },
+      "week-25": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor blood sugar (if diabetic)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Include protein sources (eggs, chickpeas)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of eyes and ears"
+          }
+        ]
+      },
+      "week-26": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor cervical length (if at risk)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid carbonated drinks"
+          },
+          {
+            "category": "Couple and Parenting",
+            "action": "Choose baby names"
+          }
+        ]
+      },
+      "week-27": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Third trimester begins: Braxton Hicks contractions"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat magnesium-rich foods (bananas, dates)"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid prolonged standing/sitting"
+          }
+        ]
+      },
+      "week-28": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "O'Sullivan Test (HGPO) window closes"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Include calcium sources (milk, cheese)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Lung maturation begins"
+          }
+        ]
+      },
+      "week-29": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Toxoplasmosis blood test (mandatory if non-immune)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid spicy foods"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Pack hospital bag"
+          }
+        ]
+      },
+      "week-30": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor fetal growth"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat vitamin E-rich foods (apricots, prunes)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Formation of palms and soles"
+          }
+        ]
+      },
+      "week-31": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Count fetal movements (10+ kicks/2 hours)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid raw or undercooked foods (e.g., sushi)"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid heavy lifting"
+          }
+        ]
+      },
+      "week-32": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Growth ultrasound (optional): checks amniotic fluid"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat leafy greens (cabbage, spinach)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Nervous system maturation"
+          }
+        ]
+      },
+      "week-33": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor blood pressure"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid salty foods"
+          },
+          {
+            "category": "Couple and Parenting",
+            "action": "Attend baby massage workshop"
+          }
+        ]
+      },
+      "week-34": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Group B Streptococcus vaginal swab (mandatory)"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Prioritize iron-rich foods (meat, lentils)"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Verify birth documents (insurance card)"
+          }
+        ]
+      },
+      "week-35": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor cervical dilation"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid gas-causing foods (cabbage, broccoli)"
+          },
+          {
+            "category": "Child Development",
+            "action": "Hair and nail maturation"
+          }
+        ]
+      },
+      "week-36": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor contractions"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat potassium-rich foods (bananas, apricots)"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid long trips"
+          }
+        ]
+      },
+      "week-37": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monthly toxoplasmosis test"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid fatty foods"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Add spare clothes to hospital bag"
+          }
+        ]
+      },
+      "week-38": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Daily fetal movement monitoring"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Eat easily digestible foods"
+          },
+          {
+            "category": "Child Development",
+            "action": "Lungs fully matured"
+          }
+        ]
+      },
+      "week-39": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor cervical dilation readiness"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid foods that irritate skin (lemon, garlic)"
+          },
+          {
+            "category": "Prevention",
+            "action": "Avoid lying flat on back"
+          }
+        ]
+      },
+      "week-40": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Final checkup: confirm baby's position"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Avoid allergenic foods"
+          },
+          {
+            "category": "Couple and Parenting",
+            "action": "Schedule relaxation session"
+          },
+          {
+            "category": "Child Development",
+            "action": "Baby fully developed and ready to be born"
+          }
+        ]
+      },
+      "week-41": {
+        "actions": [
+          {
+            "category": "Health",
+            "action": "Monitor regular contractions"
+          },
+          {
+            "category": "Nutrition",
+            "action": "Stay hydrated to prevent dehydration"
+          },
+          {
+            "category": "Administrative Steps",
+            "action": "Contact doctor if induction needed"
+          },
+          {
+            "category": "Child Development",
+            "action": "Baby in birth position"
+          }
+        ]
+      }
     },
-    "week-2": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor nausea and fatigue"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Prioritize iron-rich foods (meat, leafy greens)"
-        },
-        {
-          "category": "Couple and Parenting",
-          "action": "Discuss expectations with your partner"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid raw or undercooked foods (toxoplasmosis risk)"
-        }
-      ]
-    },
-    "week-3": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Early pregnancy symptoms (sensitivity to smells)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Drink 1.5L water daily"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Schedule first prenatal appointment"
-        },
-        {
-          "category": "Child Development",
-          "action": "Initial cell differentiation"
-        }
-      ]
-    },
-    "week-4": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Avoid non-prescribed medications"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Add vitamin C-rich fruits (oranges, kiwi)"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid prolonged standing during travel"
-        }
-      ]
-    },
-    "week-5": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "First fetal heartbeat detected"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid uncooked fatty fish (e.g., smoked salmon)"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Confirm Rh factor status"
-        }
-      ]
-    },
-    "week-6": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Dating ultrasound (mandatory): confirms pregnancy and gestational age"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Increase complex carbohydrates (pasta, whole grains)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of internal organs and limbs"
-        }
-      ]
-    },
-    "week-7": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Trisomy 21 screening (optional): nuchal translucency measurement"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Limit caffeine (≤200mg/day)"
-        },
-        {
-          "category": "Beauty",
-          "action": "Start anti-stretch mark cream"
-        }
-      ]
-    },
-    "week-8": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor bleeding (possible ectopic pregnancy)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat leafy greens (spinach, kale)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of eyelids and ears"
-        }
-      ]
-    },
-    "week-9": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Non-invasive prenatal test (NIPT, optional)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Prioritize lean proteins (eggs, tofu)"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid radiation exposure"
-        }
-      ]
-    },
-    "week-10": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Formation of fingers and toes"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Add nuts (almonds, walnuts)"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Verify health insurance coverage"
-        }
-      ]
-    },
-    "week-11": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Trisomy 21 screening (optional) window closes"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid high-mercury fish (tuna, swordfish)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of digestive organs"
-        }
-      ]
-    },
-    "week-12": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Repeat dating ultrasound if not done"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Drink calcium-fortified milk"
-        },
-        {
-          "category": "Couple and Parenting",
-          "action": "Plan couple activities (walking, prenatal yoga)"
-        }
-      ]
-    },
-    "week-13": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Formation of central nervous system"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid spicy foods (risk of heartburn)"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Schedule morphological ultrasound (starting week 20)"
-        }
-      ]
-    },
-    "week-14": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor cervical length (if at risk)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat fresh fruits (apples, bananas)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of sex glands"
-        }
-      ]
-    },
-    "week-15": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Second trimester begins: reduced nausea"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Include dairy (yogurt, cheese)"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid excessive vitamin A intake"
-        }
-      ]
-    },
-    "week-16": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Second-trimester blood tests (optional)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat lean fish (sardines, mackerel)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of hair and nails"
-        }
-      ]
-    },
-    "week-17": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor Rh antibodies (if Rh-negative)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid raw eggs or meats"
-        },
-        {
-          "category": "Couple and Parenting",
-          "action": "Schedule couple prenatal visit"
-        }
-      ]
-    },
-    "week-18": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Second-trimester blood tests (optional) window closes"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Increase fiber (vegetables, dried fruits)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of muscles and bones"
-        }
-      ]
-    },
-    "week-19": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor weight and blood pressure"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid fried foods"
-        },
-        {
-          "category": "Prevention",
-          "action": "Confirm toxoplasmosis immunity status"
-        }
-      ]
-    },
-    "week-20": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Morphological ultrasound (mandatory): checks organ formation"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat colorful vegetables (carrots, broccoli)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of hands and feet"
-        }
-      ]
-    },
-    "week-21": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Repeat morphological ultrasound (mandatory)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Add whole grains (oats, quinoa)"
-        },
-        {
-          "category": "Couple and Parenting",
-          "action": "Plan childbirth preparation classes"
-        }
-      ]
-    },
-    "week-22": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Repeat morphological ultrasound (mandatory)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid trans fats"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Choose delivery hospital"
-        }
-      ]
-    },
-    "week-23": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor fetal movements"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat fresh fruits (melon, watermelon)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of nails and hair"
-        }
-      ]
-    },
-    "week-24": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "O'Sullivan Test (HGPO) for gestational diabetes (mandatory)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Limit refined sugars (chocolate, cakes)"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid long trips without medical supervision"
-        }
-      ]
-    },
-    "week-25": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor blood sugar (if diabetic)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Include protein sources (eggs, chickpeas)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of eyes and ears"
-        }
-      ]
-    },
-    "week-26": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor cervical length (if at risk)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid carbonated drinks"
-        },
-        {
-          "category": "Couple and Parenting",
-          "action": "Choose baby names"
-        }
-      ]
-    },
-    "week-27": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Third trimester begins: Braxton Hicks contractions"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat magnesium-rich foods (bananas, dates)"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid prolonged standing/sitting"
-        }
-      ]
-    },
-    "week-28": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "O'Sullivan Test (HGPO) window closes"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Include calcium sources (milk, cheese)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Lung maturation begins"
-        }
-      ]
-    },
-    "week-29": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Toxoplasmosis blood test (mandatory if non-immune)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid spicy foods"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Pack hospital bag"
-        }
-      ]
-    },
-    "week-30": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor fetal growth"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat vitamin E-rich foods (apricots, prunes)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Formation of palms and soles"
-        }
-      ]
-    },
-    "week-31": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Count fetal movements (10+ kicks/2 hours)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid raw or undercooked foods (e.g., sushi)"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid heavy lifting"
-        }
-      ]
-    },
-    "week-32": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Growth ultrasound (optional): checks amniotic fluid"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat leafy greens (cabbage, spinach)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Nervous system maturation"
-        }
-      ]
-    },
-    "week-33": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor blood pressure"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid salty foods"
-        },
-        {
-          "category": "Couple and Parenting",
-          "action": "Attend baby massage workshop"
-        }
-      ]
-    },
-    "week-34": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Group B Streptococcus vaginal swab (mandatory)"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Prioritize iron-rich foods (meat, lentils)"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Verify birth documents (insurance card)"
-        }
-      ]
-    },
-    "week-35": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor cervical dilation"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid gas-causing foods (cabbage, broccoli)"
-        },
-        {
-          "category": "Child Development",
-          "action": "Hair and nail maturation"
-        }
-      ]
-    },
-    "week-36": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor contractions"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat potassium-rich foods (bananas, apricots)"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid long trips"
-        }
-      ]
-    },
-    "week-37": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monthly toxoplasmosis test"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid fatty foods"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Add spare clothes to hospital bag"
-        }
-      ]
-    },
-    "week-38": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Daily fetal movement monitoring"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Eat easily digestible foods"
-        },
-        {
-          "category": "Child Development",
-          "action": "Lungs fully matured"
-        }
-      ]
-    },
-    "week-39": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor cervical dilation readiness"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid foods that irritate skin (lemon, garlic)"
-        },
-        {
-          "category": "Prevention",
-          "action": "Avoid lying flat on back"
-        }
-      ]
-    },
-    "week-40": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Final checkup: confirm baby's position"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Avoid allergenic foods"
-        },
-        {
-          "category": "Couple and Parenting",
-          "action": "Schedule relaxation session"
-        },
-        {
-          "category": "Child Development",
-          "action": "Baby fully developed and ready to be born"
-        }
-      ]
-    },
-    "week-41": {
-      "actions": [
-        {
-          "category": "Health",
-          "action": "Monitor regular contractions"
-        },
-        {
-          "category": "Nutrition",
-          "action": "Stay hydrated to prevent dehydration"
-        },
-        {
-          "category": "Administrative Steps",
-          "action": "Contact doctor if induction needed"
-        },
-        {
-          "category": "Child Development",
-          "action": "Baby in birth position"
-        }
-      ]
-    }
   },
   features: {
     dueDate: 'Due Date\nCalculator',
