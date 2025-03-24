@@ -9,6 +9,7 @@ import { KickCounterFeature } from '@/components/mom-features/kickcounter/KickCo
 import { ContractionTrackerFeature } from '@/components/mom-features/contractionTracker/ContractionTrackerFeature';
 import { BabySizeFeature } from '@/components/baby-size/BabySizeFeature';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { BreathingFeature } from '@/components/mom-features/breathingFeature/BreathingFeature';
 
 export default function MomScreen() {
   const insets = useSafeAreaInsets();
@@ -37,7 +38,11 @@ export default function MomScreen() {
           <View style={styles.featureSpacing} />
           <BabySizeFeature />
         </View>
-        
+        <View style={[styles.featuresGrid, styles.rowSpacing]}>
+          <BreathingFeature/>
+          <View style={styles.featureSpacing} />
+          <View style={styles.emptyFeature} />
+        </View>
       </ScrollView>
       </LinearGradient>
     </SafeAreaView>

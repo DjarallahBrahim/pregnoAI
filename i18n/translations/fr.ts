@@ -914,6 +914,11 @@ export default {
       title: 'Taille du Bébé',
       subtitle: 'Suivre la croissance de bébé',
       badge: 'Info'
+    },
+    breathing: {
+      title: "Breathing Exercises",
+      description: "Practice breathing techniques for labor and relaxation",
+      badge: "yoga"
     }
   }
 };

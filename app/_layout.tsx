@@ -23,6 +23,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="kick-stats" />
           <Stack.Screen name="contraction-tracker" />
+          <Stack.Screen name="breathing" />
         </Stack>
         <StatusBar style="auto" />
         </BottomSheetModalProvider>
