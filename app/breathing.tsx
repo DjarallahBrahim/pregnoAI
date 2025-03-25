@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Dimensions, Animated, Text, TouchableOpacity } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
+import * as Haptics from 'expo-haptics';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CENTER_X = SCREEN_WIDTH / 2;
@@ -9,16 +10,12 @@ const CENTER_Y = SCREEN_HEIGHT / 2;
 // Generate particles in a spherical pattern
 const generateParticles = (count, baseDistance) => {
   const particles = [];
-  
   for (let i = 0; i < count; i++) {
-    // Create spherical distribution
     const theta = Math.acos(Math.random() * 2 - 1);
     const phi = Math.random() * 2 * Math.PI;
-    
     const x = baseDistance * Math.sin(theta) * Math.cos(phi);
     const y = baseDistance * Math.sin(theta) * Math.sin(phi);
     const z = baseDistance * Math.cos(theta);
-    
     particles.push({
       id: i,
       initialX: x,
@@ -28,232 +25,212 @@ const generateParticles = (count, baseDistance) => {
       y,
       z,
       size: Math.random() * 1.5 + 1,
-      // Add a slight randomization to the initial positions
-      distanceFactor: 0.9 + Math.random() * 0.2, // 0.9-1.1 variation
+      distanceFactor: 0.9 + Math.random() * 0.2,
     });
   }
   return particles;
 };
 
-export default function breathingScreen() {
-  // Base distance will be animated for breathing effect
+export function BreathingScreen({ enableVibration = false }) {
+  // Animated value controlling the breathing "zoom"
   const baseDistance = useRef(new Animated.Value(50)).current;
   const [particles, setParticles] = useState(() => generateParticles(200, 50));
   const [isBreathing, setIsBreathing] = useState(true);
   const [breathPhase, setBreathPhase] = useState('inhale');
   const [secondsRemaining, setSecondsRemaining] = useState(4);
-  const animationRef = useRef(null);
+
+  // Refs for animation, timer, and haptic timeouts
   const breathingRef = useRef(null);
   const timerRef = useRef(null);
-  
-  // Setup breathing animation
-  const startBreathingAnimation = () => {
-    // Clear any existing animations
-    if (breathingRef.current) {
-      breathingRef.current.stop();
+  const hapticTimersRef = useRef([]);
+  const mounted = useRef(true);
+
+  // Trigger haptic feedback (only if vibration is enabled)
+  const triggerHaptic = (style) => {
+    if (!enableVibration) return;
+    try {
+      Haptics.impactAsync(style);
+    } catch (error) {
+      console.log('Haptic error:', error);
     }
-    
-    const breathingSequence = () => {
-      // Inhale animation (expand)
-      setBreathPhase('inhale');
-      setSecondsRemaining(4);
-      Animated.timing(baseDistance, {
-        toValue: 150, // Expand to larger size
-        duration: 4000, // 4 seconds inhale
-        useNativeDriver: false,
-      }).start(({ finished }) => {
-        if (finished && isBreathing) {
-          // Hold breath animation
-          setBreathPhase('hold');
-          setSecondsRemaining(2);
-          Animated.timing(baseDistance, {
-            toValue: 150, // Keep at expanded size
-            duration: 2000, // 2 seconds hold
-            useNativeDriver: false,
-          }).start(({ finished }) => {
-            if (finished && isBreathing) {
-              // Exhale animation (contract)
-              setBreathPhase('exhale');
-              setSecondsRemaining(6);
-              Animated.timing(baseDistance, {
-                toValue: 50, // Contract to original size
-                duration: 6000, // 6 seconds exhale
-                useNativeDriver: false,
-              }).start(({ finished }) => {
-                if (finished && isBreathing) {
-                  // Repeat the sequence
-                  breathingSequence();
-                }
-              });
-            }
-          });
-        }
-      });
-    };
-    
-    breathingSequence();
   };
-  
-  // Update timer
+
+  // Clear any pending haptic timers
+  const clearAllHapticTimers = () => {
+    hapticTimersRef.current.forEach(timerId => clearTimeout(timerId));
+    hapticTimersRef.current = [];
+  };
+
+  // Setup inhale haptics for the 4 second zoom in phase
+  const setupInhaleHaptics = () => {
+    clearAllHapticTimers();
+    if (!enableVibration) return;
+    const interval = 100; // every 100ms
+    const duration = 4000;
+    const numVibrations = Math.floor(duration / interval);
+    for (let i = 0; i < numVibrations; i++) {
+      const timerId = setTimeout(() => {
+        if (mounted.current && isBreathing) {
+          triggerHaptic(Haptics.ImpactFeedbackStyle.Medium);
+        }
+      }, i * interval);
+      hapticTimersRef.current.push(timerId);
+    }
+  };
+
+  // Start the breathing cycle: 4s inhale then 3s exhale with no pause
+  const startBreathingAnimation = () => {
+    if (!mounted.current || !isBreathing) return;
+
+    // Inhale: Zoom in from 50 to 150 over 4 seconds (with haptics)
+    setBreathPhase('inhale');
+    setSecondsRemaining(4);
+    setupInhaleHaptics();
+    breathingRef.current = Animated.timing(baseDistance, {
+      toValue: 150,
+      duration: 4000,
+      useNativeDriver: false,
+    });
+    breathingRef.current.start(({ finished }) => {
+      if (finished && mounted.current && isBreathing) {
+        // Exhale: Zoom out from 150 back to 50 over 3 seconds (no haptics)
+        setBreathPhase('exhale');
+        setSecondsRemaining(3);
+        clearAllHapticTimers();
+        breathingRef.current = Animated.timing(baseDistance, {
+          toValue: 50,
+          duration: 3000,
+          useNativeDriver: false,
+        });
+        breathingRef.current.start(({ finished }) => {
+          if (finished && mounted.current && isBreathing) {
+            startBreathingAnimation(); // loop
+          }
+        });
+      }
+    });
+  };
+
+  // Update the secondsRemaining counter every second
   useEffect(() => {
     if (isBreathing) {
       timerRef.current = setInterval(() => {
-        setSecondsRemaining(prev => {
-          if (prev <= 1) {
-            return 0;
-          }
-          return prev - 1;
-        });
+        setSecondsRemaining(prev => (prev <= 1 ? 0 : prev - 1));
       }, 1000);
     }
-    
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [isBreathing, breathPhase]);
-  
-  // Start/stop breathing
+
+  // Start/stop breathing animation when isBreathing changes
   useEffect(() => {
     if (isBreathing) {
       startBreathingAnimation();
     } else {
-      if (breathingRef.current) {
-        breathingRef.current.stop();
-      }
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      // Pause: stop current animation and clear haptics and timers
+      if (breathingRef.current) breathingRef.current.stop();
+      if (timerRef.current) clearInterval(timerRef.current);
+      clearAllHapticTimers();
     }
-    
     return () => {
-      if (breathingRef.current) {
-        breathingRef.current.stop();
-      }
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      if (breathingRef.current) breathingRef.current.stop();
+      if (timerRef.current) clearInterval(timerRef.current);
+      clearAllHapticTimers();
     };
   }, [isBreathing]);
-  
-  // Update particles position based on animated base distance
+
+  // Update particles' positions when baseDistance changes
   useEffect(() => {
     const distanceListener = baseDistance.addListener(({ value }) => {
-      setParticles(prevParticles => {
-        return prevParticles.map(p => {
+      setParticles(prevParticles =>
+        prevParticles.map(p => {
           const distance = value * p.distanceFactor;
-          const theta = Math.acos(p.initialZ / Math.sqrt(p.initialX * p.initialX + p.initialY * p.initialY + p.initialZ * p.initialZ));
+          const totalInitialDistance = Math.sqrt(
+            p.initialX ** 2 + p.initialY ** 2 + p.initialZ ** 2
+          );
+          const theta = Math.acos(p.initialZ / totalInitialDistance);
           const phi = Math.atan2(p.initialY, p.initialX);
-          
           const newX = distance * Math.sin(theta) * Math.cos(phi);
           const newY = distance * Math.sin(theta) * Math.sin(phi);
           const newZ = distance * Math.cos(theta);
-          
-          return {
-            ...p,
-            x: newX,
-            y: newY,
-            z: newZ,
-          };
-        });
-      });
+          return { ...p, x: newX, y: newY, z: newZ };
+        })
+      );
     });
-    
-    // Add gentle rotation to the particles
-    const rotateParticles = () => {
-      const angle = Date.now() * 0.0001;
-      
-      setParticles(prevParticles => {
-        return prevParticles.map(p => {
-          // Apply slow rotation around Y axis
-          const cosAngle = Math.cos(angle);
-          const sinAngle = Math.sin(angle);
-          
-          // Matrix rotation around Y axis
-          const newX = p.x * cosAngle + p.z * sinAngle;
-          const newZ = -p.x * sinAngle + p.z * cosAngle;
-          
-          return {
-            ...p,
-            x: newX,
-            z: newZ,
-          };
-        });
-      });
-      
-      animationRef.current = requestAnimationFrame(rotateParticles);
-    };
-    
-    animationRef.current = requestAnimationFrame(rotateParticles);
-    
     return () => {
       baseDistance.removeListener(distanceListener);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
     };
-  }, []);
-  
-  // Start breathing animation on component mount
+  }, [baseDistance]);
+
+  // Rotate particles only when breathing is active
   useEffect(() => {
-    startBreathingAnimation();
-    
+    let frame;
+    const rotateParticles = () => {
+      if (!isBreathing) return; // do not rotate if paused
+      const angle = Date.now() * 0.0001;
+      setParticles(prevParticles =>
+        prevParticles.map(p => {
+          const cosAngle = Math.cos(angle);
+          const sinAngle = Math.sin(angle);
+          const newX = p.x * cosAngle + p.z * sinAngle;
+          const newZ = -p.x * sinAngle + p.z * cosAngle;
+          return { ...p, x: newX, z: newZ };
+        })
+      );
+      frame = requestAnimationFrame(rotateParticles);
+    };
+    if (isBreathing) {
+      frame = requestAnimationFrame(rotateParticles);
+    }
     return () => {
-      if (breathingRef.current) {
-        breathingRef.current.stop();
-      }
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [isBreathing]);
+
+  // Setup mounted flag and start breathing on mount
+  useEffect(() => {
+    mounted.current = true;
+    if (isBreathing) startBreathingAnimation();
+    return () => {
+      mounted.current = false;
+      if (breathingRef.current) breathingRef.current.stop();
+      clearAllHapticTimers();
     };
   }, []);
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.particleContainer}>
         <Svg height="100%" width="100%">
-          {particles.map((particle) => {
-            // Calculate 2D position from 3D coordinates
+          {particles.map(particle => {
+            // Calculate 2D position from 3D coordinates with perspective
             const PERSPECTIVE = 800;
             const scale = PERSPECTIVE / (PERSPECTIVE + particle.z);
             const x = particle.x * scale + CENTER_X;
             const y = particle.y * scale + CENTER_Y;
-            
-            // Only render particles in view
             if (x >= 0 && x <= SCREEN_WIDTH && y >= 0 && y <= SCREEN_HEIGHT) {
               const particleSize = particle.size * scale;
               const opacity = Math.min(0.8, Math.max(0.3, 1 - Math.abs(particle.z) / 300));
-              
-              // Change colors based on breath phase
-              let color;
-              if (breathPhase === 'inhale') {
-                color = `rgba(100, 180, 255, ${opacity})`;  // Cool blue for inhale
-              } else if (breathPhase === 'hold') {
-                color = `rgba(255, 255, 255, ${opacity})`;  // White for hold
-              } else {
-                color = `rgba(255, 140, 100, ${opacity})`;  // Warm orange for exhale
-              }
-              
+              let color =
+                breathPhase === 'inhale'
+                  ? `rgba(100, 180, 255, ${opacity})`
+                  : `rgba(255, 140, 100, ${opacity})`;
               return (
-                <Circle
-                  key={particle.id}
-                  cx={x}
-                  cy={y}
-                  r={particleSize}
-                  fill={color}
-                />
+                <Circle key={particle.id} cx={x} cy={y} r={particleSize} fill={color} />
               );
             }
             return null;
           })}
         </Svg>
       </View>
-      
       <View style={styles.controlsContainer}>
         <Text style={styles.phaseText}>
           {breathPhase.toUpperCase()} {secondsRemaining}s
         </Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.button}
-          onPress={() => setIsBreathing(!isBreathing)}
+          onPress={() => setIsBreathing(prev => !prev)}
         >
           <Text style={styles.buttonText}>
             {isBreathing ? 'Pause' : 'Start'} Breathing

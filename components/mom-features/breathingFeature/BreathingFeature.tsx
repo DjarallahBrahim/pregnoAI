@@ -5,9 +5,12 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { theme } from '@/styles/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { BreathingFeatureModal } from './BreathingFeatureModal';
 
 export function BreathingFeature() {
   const { t } = useLanguage();
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   
   return (
     <>
@@ -15,7 +18,7 @@ export function BreathingFeature() {
       style={styles.container}
       activeOpacity={0.9}
       onPress={() => {
-        router.push('/breathing');
+        router.push('/flowersAnimation');
       }}    >
       <LinearGradient
         colors={['rgba(255, 143, 177, 0.1)', 'rgba(255, 143, 177, 0.2)']}
@@ -40,6 +43,10 @@ export function BreathingFeature() {
             <Text style={styles.badgeText}>{t('momFeatures.breathing.badge')}</Text>
           </View>
         </View>
+        <BreathingFeatureModal
+      isVisible={isModalVisible}
+      onClose={() => setIsModalVisible(false)}
+    />
       </LinearGradient>
     </TouchableOpacity>
     </>
