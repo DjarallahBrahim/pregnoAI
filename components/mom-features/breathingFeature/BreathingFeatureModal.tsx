@@ -4,75 +4,55 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
-  Platform,
+  FlatList,
   Dimensions,
+  Image
 } from 'react-native';
 import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import { Ionicons } from '@expo/vector-icons';
-import { theme } from '@/styles/theme';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { router } from 'expo-router';
 import { useAuthStore } from '@/hooks/useAuthStore';
 import { supabase } from '@/lib/supabase';
-import Svg, { Circle } from 'react-native-svg';
-import { ActivityIndicator } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-  withSequence, 
-  FadeIn, 
-  FadeOut,
-} from 'react-native-reanimated';
-import { BreathingScreen } from '@/app/breathing';
+import Carousel from 'react-native-reanimated-carousel';
+import Animated, { useAnimatedStyle, interpolate } from 'react-native-reanimated';
+import { theme } from '@/styles/theme';
 
-const { width } = Dimensions.get('window');
 
+// Sample data with images and corresponding text
+const data = [
+  {
+    id: '1',
+    image: require('../../../assets/images/img1.png'),
+    title: 'Relax',
+    description: '30 respirations',
+    duration: '2 min',
+  },
+  {
+    id: '2',
+    image: require('../../../assets/images/img2.png'),
+    title: 'Focus',
+    description: '50 respirations',
+    duration: '3 min',
+  },
+  {
+    id: '3',
+    image: require('../../../assets/images/img3.png'),
+    title: 'Meditate',
+    description: '40 respirations',
+    duration: '4 min',
+  },
+];
+
+const CAROUSEL_WIDTH = Dimensions.get('window').width;
+const CAROUSEL_HEIGHT = 300;
 interface BreathingFeatureModalProps {
   isVisible: boolean;
   onClose: () => void;
 }
 
-// Maximum kicks to count
-const MAX_KICKS = 50;
-// Color stages - every 10 kicks, all from red family
-const COLOR_STAGES = [
-  '#F7A8C4',  // Light red - 0-10 kicks
-  '#F37199',  // Soft red - 11-20 kicks
-  '#E53888',  // Medium red - 21-30 kicks
-  '#AC1754',  // Pure red - 31-40 kicks
-  '#D84040',  // Deep red - 41-50 kicks
-];
-
-// Size constants - centralized for easy adjustment
-const SIZING = {
-  circleSize: 350,       // Overall size of the SVG container
-  strokeWidth: 8,        // Width of the progress ring
-  get radius() {         // Calculate radius dynamically
-    return (this.circleSize / 2) - (this.strokeWidth / 2);
-  },
-  get imageSize() {      // Calculate image size dynamically
-    return this.circleSize - (this.strokeWidth * 2);
-  },
-  get imageBorderRadius() { // Calculate image border radius dynamically
-    return this.imageSize / 2;
-  },
-  get imagePosition() {  // Calculate image position dynamically
-    return this.strokeWidth;
-  },
-  get circumference() {  // Calculate circumference dynamically
-    return 2 * Math.PI * this.radius;
-  }
-};
 
 export function BreathingFeatureModal({ isVisible, onClose }: BreathingFeatureModalProps) {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const [kicks, setKicks] = useState(0);
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [imageLoading, setImageLoading] = useState(true);
-  const [showMessage, setShowMessage] = useState(false);
-  const [saving, setSaving] = useState(false);
+
   const { session } = useAuthStore();
   const [currentMonth, setCurrentMonth] = useState<number | null>(null);
   const { t } = useLanguage();
@@ -109,7 +89,7 @@ export function BreathingFeatureModal({ isVisible, onClose }: BreathingFeatureMo
   }, [session?.user]);
 
 
-  const snapPoints = useMemo(() => ['70%'], []);
+  const snapPoints = useMemo(() => ['80%'], []);
 
 
 
@@ -142,8 +122,40 @@ export function BreathingFeatureModal({ isVisible, onClose }: BreathingFeatureMo
     }
   }, [isVisible, handlePresentModalPress]);
 
-  
+  const [selectedIndex, setSelectedIndex] = useState(0); // Track the selected index
+  const carouselRef = useRef(null);
 
+  // Handle flat list item press
+  const handleItemPress = (index) => {
+    setSelectedIndex(index);
+    carouselRef.current?.scrollTo({ index });
+  };
+  // Render carousel item with animations
+  const renderCarouselItem = ({ item, index, animationValue }) => {
+    const animatedStyle = useAnimatedStyle(() => {
+      const scale = interpolate(animationValue.value, [-1, 0, 1], [0.85, 1, 0.85]);
+      const translateY = interpolate(animationValue.value, [-1, 0, 1], [-20, 0, -20]);
+      const opacity = interpolate(animationValue.value, [-1, 0, 1], [0.7, 1, 0.7]);
+
+      return {
+        transform: [{ scale }, { translateY }],
+        opacity,
+      };
+    });
+
+    return (
+      <View style={styles.carouselItem}>
+        <Animated.View style={[styles.carouselImageContainer, animatedStyle]}>
+          <Image source={item.image} style={styles.image} />
+         
+          <View style={styles.overlay}>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.description}>{item.description}</Text>
+          </View>
+        </Animated.View>
+      </View>
+    );
+  };
   return (
     <BottomSheetModal
       ref={bottomSheetModalRef}
@@ -154,8 +166,53 @@ export function BreathingFeatureModal({ isVisible, onClose }: BreathingFeatureMo
       handleIndicatorStyle={styles.indicator}
       backgroundStyle={styles.modalBackground}
     >
-      <View style={styles.container}>
-      <BreathingScreen enableVibration = {true}/>
+      <View style={styles.container2}>
+   {/* Carousel */}
+      <Carousel
+            ref={carouselRef}
+            data={data}
+            loop={false}
+            width={CAROUSEL_WIDTH}
+            height={CAROUSEL_HEIGHT}
+            mode="parallax"
+            modeConfig={{
+              parallaxScrollingScale: 0.9,
+              parallaxScrollingOffset: 120,
+            }}
+            pagingEnabled
+            snapEnabled
+            defaultIndex={selectedIndex}
+            onSnapToItem={(index) => setSelectedIndex(index)}
+            renderItem={renderCarouselItem}
+            scrollAnimationDuration={500}
+        />
+
+      {/* Horizontal FlatList */}
+      <FlatList
+        data={data}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.flatListContent}
+        renderItem={({ item, index }) => (
+          <TouchableOpacity
+            key={item.id}
+            style={[
+              styles.flatListItem,
+              selectedIndex === index && styles.selectedItem,
+            ]}
+            onPress={() => handleItemPress(index)}
+          >
+            <Text style={[styles.flatListItemText, selectedIndex === index && styles.selectedText]}>{item.duration}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+
+      {/* Button */}
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Démarrer la séance</Text>
+      </TouchableOpacity>
+   
       
       </View>
     </BottomSheetModal>
@@ -179,5 +236,82 @@ const styles = StyleSheet.create({
     height: 4,
     borderRadius: 2,
   },
-
+  container2: {
+    flex: 1,
+    paddingVertical: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  carouselItem: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  carouselImageContainer: {
+    width: CAROUSEL_WIDTH * 0.8, // Slightly smaller than full width for parallax effect
+    height: CAROUSEL_HEIGHT,
+    borderRadius: 20,
+    overflow: 'hidden',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  overlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  title: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  description: {
+    color: '#fff',
+    fontSize: 18,
+  },
+  flatListContent: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  flatListItem: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  selectedItem: {
+    backgroundColor: 'rgba(0, 0, 0, 0.0)', // Selected item background color
+  },
+  flatListItemText: {
+    color: theme.colors.text.secondary, // Green text color for selected item
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  selectedText: {
+    color: theme.colors.secondary, // Green text color for selected item
+  },
+  button: {
+    marginTop: 30,
+    backgroundColor: '#FF6B6B',
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 20,
+  },
+  buttonText: {
+    color: 'theme.colors.text.secondary', // Green text color for selected item
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });

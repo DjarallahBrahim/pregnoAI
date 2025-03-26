@@ -17,9 +17,8 @@ export function BreathingFeature() {
     <TouchableOpacity 
       style={styles.container}
       activeOpacity={0.9}
-      onPress={() => {
-        router.push('/flowersAnimation');
-      }}    >
+      onPress={() => setIsModalVisible(true)}
+      >
       <LinearGradient
         colors={['rgba(255, 143, 177, 0.1)', 'rgba(255, 143, 177, 0.2)']}
         style={styles.gradient}
