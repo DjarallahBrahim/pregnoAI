@@ -1,5 +1,6 @@
 import React, {useRef, useEffect} from 'react';
 import {Animated, Dimensions, Easing, StyleSheet, View} from 'react-native';
+import { theme } from '@/styles/theme';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -53,7 +54,7 @@ const flowersAnimationScreen = () => {
   });
 
   return (
-    <LinearGradient colors={['#FF8FB1', '#080808']} style={styles.container}>
+    <LinearGradient colors={[theme.colors.background.darklight, theme.colors.background.dark]} style={styles.container}>
       {Array.from({length: NUM_CIRCLES}).map((_, i) => {
         const angle = (i * (360 / NUM_CIRCLES)) * (Math.PI / 180);
 
@@ -91,7 +92,7 @@ const flowersAnimationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: theme.colors.background.dark,
     alignItems: 'center',
     justifyContent: 'center',
   },

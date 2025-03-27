@@ -20,6 +20,8 @@ export const theme = {
       primary: '#FFFFFF',
       secondary: 'rgba(255, 255, 255, 0.8)',
       tertiary: '#e9ecef',
+      dark: '#000',
+      darklight: '#6B6969'
     },
     text: {
       primary: '#6B6969',

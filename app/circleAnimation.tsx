@@ -247,7 +247,7 @@ export default function circleAnimationScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={[theme.colors.background.darklight, theme.colors.background.dark]} style={styles.container}>
       <Text style={styles.phaseText}>
         {isBreathingIn ? "Breathing In" : "Breathing Out"}
       </Text>
@@ -312,7 +312,7 @@ export default function circleAnimationScreen() {
           <Text style={styles.buttonText}>Reset</Text>
         </Pressable>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.background.primary,
+    backgroundColor: theme.colors.background.dark,
   },
   phaseText: {
     color: theme.colors.text.primary,

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Dimensions, Animated, Text, TouchableOpacity } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
+import { LinearGradient } from 'expo-linear-gradient';
 import { theme } from '@/styles/theme';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -200,7 +201,7 @@ const BreathingScreen = ({ enableVibration = false }) =>  {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={[theme.colors.background.darklight, theme.colors.background.dark]} style={styles.container}>
       <View style={styles.particleContainer}>
         <Svg height="100%" width="100%">
           {particles.map(particle => {
@@ -237,14 +238,14 @@ const BreathingScreen = ({ enableVibration = false }) =>  {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background.primary,
+    backgroundColor: theme.colors.background.dark,
     justifyContent: 'center',
     alignItems: 'center',
   },
