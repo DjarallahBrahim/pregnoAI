@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Dimensions, Animated, Text, TouchableOpacity } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
+import { theme } from '@/styles/theme';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const CENTER_X = SCREEN_WIDTH / 2;
@@ -30,8 +31,7 @@ const generateParticles = (count, baseDistance) => {
   }
   return particles;
 };
-
-export function BreathingScreen({ enableVibration = false }) {
+const BreathingScreen = ({ enableVibration = false }) =>  {
   // Animated value controlling the breathing "zoom"
   const baseDistance = useRef(new Animated.Value(50)).current;
   const [particles, setParticles] = useState(() => generateParticles(200, 50));
@@ -244,7 +244,7 @@ export function BreathingScreen({ enableVibration = false }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: theme.colors.background.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -261,19 +261,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   phaseText: {
-    color: 'white',
+    color: theme.colors.text.primary,
     fontSize: 24,
     marginBottom: 20,
     fontWeight: '300',
   },
   button: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: theme.colors.primary,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 25,
+    borderRadius: theme.borderRadius.lg,
   },
   buttonText: {
-    color: 'white',
+    color: theme.colors.text.light,
     fontSize: 18,
   },
 });
+export default BreathingScreen;

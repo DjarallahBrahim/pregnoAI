@@ -25,6 +25,8 @@ export default function RootLayout() {
           <Stack.Screen name="contraction-tracker" />
           <Stack.Screen name="circleAnimation" />
           <Stack.Screen name="flowersAnimation" />
+          <Stack.Screen name="breathing" />
+
 
         </Stack>
         <StatusBar style="auto" />

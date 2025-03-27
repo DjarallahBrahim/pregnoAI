@@ -15,16 +15,26 @@ import { supabase } from '@/lib/supabase';
 import Carousel from 'react-native-reanimated-carousel';
 import Animated, { useAnimatedStyle, interpolate } from 'react-native-reanimated';
 import { theme } from '@/styles/theme';
+import { router } from 'expo-router';
 
+interface BreathingItem {
+  id: string;
+  image: any; // Using any for require() image type
+  title: string;
+  description: string;
+  duration: string;
+  pageUrl: string;
+}
 
 // Sample data with images and corresponding text
-const data = [
+const data: BreathingItem[] = [
   {
     id: '1',
     image: require('../../../assets/images/img1.png'),
     title: 'Relax',
     description: '30 respirations',
     duration: '2 min',
+    pageUrl: '/breathing'
   },
   {
     id: '2',
@@ -32,13 +42,15 @@ const data = [
     title: 'Focus',
     description: '50 respirations',
     duration: '3 min',
-  },
+    pageUrl: '/circleAnimation'
+  }, 
   {
     id: '3',
     image: require('../../../assets/images/img3.png'),
-    title: 'Meditate',
-    description: '40 respirations',
-    duration: '4 min',
+    title: 'Focus',
+    description: '50 respirations',
+    duration: '3 min',
+    pageUrl: '/flowersAnimation'
   },
 ];
 
@@ -130,6 +142,13 @@ export function BreathingFeatureModal({ isVisible, onClose }: BreathingFeatureMo
     setSelectedIndex(index);
     carouselRef.current?.scrollTo({ index });
   };
+
+  // Handle carousel item press
+  const handleCarouselItemPress = (item: BreathingItem) => {
+    onClose(); // Close the modal
+    router.push(item.pageUrl); // Navigate to the respective page
+  };
+
   // Render carousel item with animations
   const renderCarouselItem = ({ item, index, animationValue }) => {
     const animatedStyle = useAnimatedStyle(() => {
@@ -144,16 +163,19 @@ export function BreathingFeatureModal({ isVisible, onClose }: BreathingFeatureMo
     });
 
     return (
-      <View style={styles.carouselItem}>
+      <TouchableOpacity 
+        style={styles.carouselItem} 
+        onPress={() => handleCarouselItemPress(item)}
+        activeOpacity={0.8}
+      >
         <Animated.View style={[styles.carouselImageContainer, animatedStyle]}>
           <Image source={item.image} style={styles.image} />
-         
           <View style={styles.overlay}>
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.description}>{item.description}</Text>
           </View>
         </Animated.View>
-      </View>
+      </TouchableOpacity>
     );
   };
   return (
@@ -226,12 +248,12 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalBackground: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.background.primary,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
   },
   indicator: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: theme.colors.border,
     width: 40,
     height: 4,
     borderRadius: 2,
@@ -248,9 +270,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   carouselImageContainer: {
-    width: CAROUSEL_WIDTH * 0.8, // Slightly smaller than full width for parallax effect
+    width: CAROUSEL_WIDTH * 0.8,
     height: CAROUSEL_HEIGHT,
-    borderRadius: 20,
+    borderRadius: theme.borderRadius.lg,
     overflow: 'hidden',
   },
   image: {
@@ -265,17 +287,17 @@ const styles = StyleSheet.create({
     right: 0,
     padding: 20,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: theme.borderRadius.lg,
+    borderBottomRightRadius: theme.borderRadius.lg,
   },
   title: {
-    color: '#fff',
+    color: theme.colors.text.light,
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 5,
   },
   description: {
-    color: '#fff',
+    color: theme.colors.text.light,
     fontSize: 18,
   },
   flatListContent: {
@@ -290,27 +312,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   selectedItem: {
-    backgroundColor: 'rgba(0, 0, 0, 0.0)', // Selected item background color
+    backgroundColor: 'rgba(0, 0, 0, 0.0)',
   },
   flatListItemText: {
-    color: theme.colors.text.secondary, // Green text color for selected item
+    color: theme.colors.text.secondary,
     fontSize: 18,
     fontWeight: 'bold',
   },
   selectedText: {
-    color: theme.colors.secondary, // Green text color for selected item
+    color: theme.colors.secondary,
   },
   button: {
     marginTop: 30,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: theme.colors.primary,
     paddingVertical: 15,
-    borderRadius: 10,
+    paddingHorizontal: 40,
+    borderRadius: theme.borderRadius.lg,
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
   },
   buttonText: {
-    color: 'theme.colors.text.secondary', // Green text color for selected item
+    color: theme.colors.text.light,
     fontSize: 18,
     fontWeight: 'bold',
   },

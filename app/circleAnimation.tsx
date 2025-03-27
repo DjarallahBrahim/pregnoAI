@@ -3,6 +3,7 @@ import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { Animated, Easing } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Haptics from 'expo-haptics';
+import { theme } from '@/styles/theme';
 
 export default function circleAnimationScreen() {
   // Animation values
@@ -320,10 +321,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: theme.colors.background.primary,
   },
   phaseText: {
-    color: 'white',
+    color: theme.colors.text.primary,
     fontSize: 18,
     marginBottom: 20,
     fontWeight: '500',
@@ -342,27 +343,27 @@ const styles = StyleSheet.create({
   outerCircle: {
     width: 30,
     height: 30,
-    borderRadius: 15, // Changed to 50% of width (30/2 = 15)
-    shadowColor: 'rgba(255,160,180,0.3)',
+    borderRadius: 15,
+    shadowColor: theme.colors.primary,
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 1,
+    shadowOpacity: 0.3,
     shadowRadius: 20,
     elevation: 10,
   },
   middleCircle: {
     width: 30,
     height: 30,
-    borderRadius: 15, // Changed to 50% of width
+    borderRadius: 15,
   },
   innerCircle: {
     width: 30,
     height: 30,
-    borderRadius: 15, // Changed to 50% of width
+    borderRadius: 15,
   },
   highlight: {
     width: 30,
     height: 30,
-    borderRadius: 15, // Changed to 50% of width
+    borderRadius: 15,
   },
   controls: {
     position: 'absolute',
@@ -373,15 +374,15 @@ const styles = StyleSheet.create({
   button: {
     padding: 8,
     paddingHorizontal: 16,
-    borderRadius: 4,
-    backgroundColor: '#444',
+    borderRadius: theme.borderRadius.md,
+    backgroundColor: theme.colors.primary,
   },
   disabledButton: {
-    backgroundColor: '#222',
+    backgroundColor: theme.colors.background.tertiary,
     opacity: 0.7,
   },
   buttonText: {
-    color: 'white',
+    color: theme.colors.text.light,
     fontSize: 16,
   },
 });
